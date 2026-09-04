@@ -1,8 +1,9 @@
 @import 'tailwindcss';
 
-html,
-body,
-#app {
-  height: 100%;
-  margin: 0;
+.pozadina {
+  background-color: #eaeff7;
+  background-image:
+    linear-gradient(#dde5f0 1px, transparent 1px),
+    linear-gradient(90deg, #dde5f0 1px, transparent 1px);
+  background-size: 24px 24px;
 }
