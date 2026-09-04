@@ -1,6 +1,8 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { sveucilista } from '../data/katalog.js'
+import { RouterLink } from 'vue-router'
+
 
 const trazi = ref('')
 const grad = ref('')
@@ -77,10 +79,10 @@ function brojFakulteta(broj) {
       </div>
 
       <div class="grid grid-cols-2 gap-3">
-        <div v-for="fakultet in sveuciliste.fakulteti" :key="fakultet.id" class="bg-white border border-blue-200 rounded-lg p-4 shadow-sm">
+        <RouterLink v-for="fakultet in sveuciliste.fakulteti" :key="fakultet.id" :to="'/fakulteti/' + fakultet.id" class="block bg-white border border-blue-200 rounded-lg p-4 shadow-sm hover:border-blue-400">
           <h3 class="font-semibold text-blue-950">{{ fakultet.naziv }}</h3>
           <p class="text-sm mt-1 text-black/60">{{ fakultet.kratica }}, {{ fakultet.grad }}</p>
-        </div>
+        </RouterLink>
       </div>
     </div>
   </div>

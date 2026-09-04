@@ -7,6 +7,7 @@ import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import MojPortal from '../views/MojPortal.vue'
 import AdminDashboard from '../views/AdminDashboard.vue'
+import FakultetDetalji from '../views/FakultetDetalji.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,6 +19,7 @@ const router = createRouter({
     { path: '/studijski-programi', name: 'studijski-programi', component: StudijskiProgrami },
     { path: '/mojportal', name: 'mojportal', component: MojPortal, meta: { requiresAuth: true } },
     { path: '/admin', name: 'admin', component: AdminDashboard, meta: { requiresAdmin: true } },
+    { path: '/fakulteti/:id', name: 'fakultet-detalji', component: FakultetDetalji }
   ],
 })
 
