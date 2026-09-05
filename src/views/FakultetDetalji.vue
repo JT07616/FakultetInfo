@@ -1,38 +1,67 @@
 <script setup>
-import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { Landmark, MapPin, Globe, Image as ImageIcon } from 'lucide-vue-next'
+import { MapPin, Globe } from 'lucide-vue-next'
 import { fakulteti } from '../data/katalog.js'
-import Zaglavlje from '../components/Zaglavlje.vue'
+import { programi } from '../data/programi.js'
+import ProgramKartica from '../components/ProgramKartica.vue'
 
-const ruta = useRoute()
-const fakultet = computed(() => fakulteti.find((f) => f.id === ruta.params.id))
+const route = useRoute()
+const fakultet = fakulteti.find((f) => f.id === route.params.id)
+
+// studijski programi ovog fakulteta
+const njegoviProgrami = []
+
+if (fakultet) {
+  for (const program of programi) {
+    if (program.fakultetId === fakultet.id) {
+      njegoviProgrami.push(program)
+    }
+  }
+}
+
+// ponavljajuce klase
+const znacka = 'flex items-center gap-2 text-sm text-gray-600 bg-white border border-stone-300 rounded-full px-3 py-1.5'
+const naslov = 'text-xl font-extrabold text-blue-950 mt-10'
+const opis = 'text-sm text-gray-500 mt-1 mb-4'
 </script>
 
 <template>
-  <div class="max-w-3xl mx-auto px-6 py-10">
-    <div v-if="!fakultet" class="bg-white border border-blue-200 rounded-lg p-8 text-center">
-      <p class="font-medium text-blue-950">Taj fakultet ne postoji</p>
-      <RouterLink to="/fakulteti" class="text-sm font-semibold text-blue-700">Povratak na listu fakulteta</RouterLink>
-    </div>
+  <div class="max-w-4xl mx-auto px-6 py-10">
+    <RouterLink to="/fakulteti" class="text-sm font-semibold text-blue-900 hover:text-blue-950">← Fakulteti</RouterLink>
 
-    <div v-else>
-      <Zaglavlje :naslov="fakultet.naziv" natrag="/fakulteti" natragTekst="Fakulteti" />
+    <p v-if="!fakultet" class="text-gray-500 mt-8">Taj fakultet ne postoji.</p>
 
-      <div class="bg-white border border-blue-200 rounded-lg flex overflow-hidden">
-        <!-- TU IĐE LOGOTIP FAKULTETA
-             Kad u katalog.js dodam polje slika, ovdje dolazi:
-             <img :src="fakultet.slika" :alt="fakultet.naziv" class="w-full" /> -->
-        <div class="w-44 shrink-0 bg-blue-900 grid place-items-center p-6">
-          <ImageIcon class="size-10 text-blue-700" />
+    <template v-else>
+      <!-- zaglavlje fakulteta -->
+      <div class="mt-6 flex items-start gap-4">
+        <div class="size-20 shrink-0 flex items-center justify-center bg-white border border-stone-300 rounded-xl">
+          <img v-if="fakultet.slika" :src="fakultet.slika" :alt="fakultet.naziv" class="size-14 object-contain" />
+          <span v-else class="text-sm font-semibold text-blue-950">{{ fakultet.kratica }}</span>
         </div>
-
-        <div class="p-6">
-          <p class="flex items-center gap-2 border-b border-blue-100 pb-3"><Landmark class="size-4" />{{ fakultet.sveuciliste }}</p>
-          <p class="flex items-center gap-2 mt-3"><MapPin class="size-4" />{{ fakultet.adresa }}</p>
-          <a :href="fakultet.web" target="_blank" class="flex items-center gap-2 font-semibold text-blue-700 mt-3"> <Globe class="size-4" />{{ fakultet.web.replace('https://', '') }} </a>
+        <div>
+          <h1 class="text-3xl font-extrabold text-blue-950">{{ fakultet.naziv }}</h1>
+          <p class="text-gray-500 mt-1">{{ fakultet.sveuciliste || 'Samostalno veleučilište' }}</p>
         </div>
       </div>
-    </div>
+
+      <div class="flex flex-wrap gap-2 mt-5">
+        <span :class="znacka"><MapPin class="size-4" />{{ fakultet.adresa }}</span>
+        <a :href="fakultet.web" target="_blank" :class="znacka" class="font-semibold text-blue-900 hover:border-blue-300"><Globe class="size-4" />{{ fakultet.web.replace('https://', '') }}</a>
+      </div>
+
+      <!-- studijski programi fakulteta -->
+      <h2 :class="naslov">Studijski programi</h2>
+      <p :class="opis">Programi koje fakultet nudi u nacionalnom sustavu prijava.</p>
+
+      <div class="grid sm:grid-cols-2 gap-3">
+        <ProgramKartica v-for="program in njegoviProgrami" :key="program.id" :program="program" />
+      </div>
+
+      <!-- obavijesti ce dodavati administrator -->
+      <h2 :class="naslov">Obavijesti</h2>
+      <p :class="opis">Najave i rokovi vezani uz upise na ovaj fakultet.</p>
+
+      <p class="border-2 border-dashed border-stone-300 rounded-xl p-6 text-center text-sm text-gray-500">Još nema obavijesti za ovaj fakultet.</p>
+    </template>
   </div>
 </template>

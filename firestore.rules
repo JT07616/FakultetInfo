@@ -1,0 +1,25 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function jeAdmin() {
+      return request.auth != null
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // korisnik cita i pise samo svoj profil
+    // role se postavlja na 'user' pri registraciji i poslije se ne smije mijenjati,
+    // inace bi si svatko mogao dati admina
+    match /users/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow create: if request.auth != null
+        && request.auth.uid == uid
+        && request.resource.data.role == 'user';
+      allow update: if request.auth != null
+        && request.auth.uid == uid
+        && request.resource.data.role == resource.data.role;
+      allow delete: if false;
+    }
+  }
+}

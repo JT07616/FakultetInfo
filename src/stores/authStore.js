@@ -92,5 +92,7 @@ export const useAuthStore = defineStore('auth', () => {
     })
   }
 
+  
+
  return { user, profil, isLoggedIn, isAdmin, username, init, registracija, prijava, odjava, loadProfil }
 })

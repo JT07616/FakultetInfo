@@ -1,89 +1,53 @@
 <script setup>
 import { ref, computed } from 'vue'
-import { sveucilista } from '../data/katalog.js'
-import { RouterLink } from 'vue-router'
+import { fakulteti } from '../data/katalog.js'
+import FakultetKartica from '../components/FakultetKartica.vue'
 
+const pretraga = ref('')
+const smjer = ref('az')
 
-const trazi = ref('')
-const grad = ref('')
-const gradovi = [] // iz kataloga
-
-for (const sveuciliste of sveucilista) {
-  for (const fakultet of sveuciliste.fakulteti) {
-    if (!gradovi.includes(fakultet.grad)) {
-      gradovi.push(fakultet.grad)
-    }
-  }
+function odgovaraPretrazi(fakultet) {
+  const tekst = pretraga.value.trim().toLowerCase()
+  return fakultet.naziv.toLowerCase().includes(tekst) || fakultet.kratica.toLowerCase().includes(tekst) || fakultet.sveuciliste.toLowerCase().includes(tekst) || fakultet.grad.toLowerCase().includes(tekst)
 }
 
-gradovi.sort()
-
-function odgovaraGradu(fakultet) {
-  if (!grad.value) {
-    return true
-  }
-  return fakultet.grad === grad.value
-}
-
-function pretraga(fakultet, sveuciliste) {
-  const upit = trazi.value.toLowerCase()
-  return fakultet.naziv.toLowerCase().includes(upit) || fakultet.kratica.toLowerCase().includes(upit) || fakultet.grad.toLowerCase().includes(upit) || sveuciliste.naziv.toLowerCase().includes(upit)
-}
-
-const grupirani = computed(() => {
+const prikazani = computed(() => {
   const rezultat = []
-  for (const sveuciliste of sveucilista) {
-    const pronadeni = []
-  
-    for (const fakultet of sveuciliste.fakulteti) {
-      if (odgovaraGradu(fakultet) && pretraga(fakultet, sveuciliste)) {
-        pronadeni.push(fakultet)
-      }
-    }
-    pronadeni.sort((a, b) => a.naziv.localeCompare(b.naziv, 'hr'))
-    if (pronadeni.length > 0) {
-      rezultat.push({ naziv: sveuciliste.naziv, fakulteti: pronadeni })
+  for (const fakultet of fakulteti) {
+    if (odgovaraPretrazi(fakultet)) {
+      rezultat.push(fakultet)
     }
   }
+
+  rezultat.sort((a, b) => {
+    if (smjer.value === 'az') {
+      return a.naziv.localeCompare(b.naziv, 'hr')
+    }
+    return b.naziv.localeCompare(a.naziv, 'hr')
+  })
+
   return rezultat
 })
-
-function brojFakulteta(broj) {
-  if (broj === 1) {
-    return '1 fakultet'
-  }
-  return broj + ' fakulteta'
-}
 </script>
 
 <template>
-  <div class="max-w-5xl mx-auto px-6 py-10">
-    <div class="flex items-center gap-3 mb-8">
-      <label class="font-semibold text-blue-950">Pretraži:</label>
-      <input v-model="trazi" type="text" class="flex-1 bg-white border border-blue-200 rounded-lg px-4 py-2" placeholder="Naziv fakulteta, sveučilište ili grad" />
-      <select v-model="grad" class="bg-white border border-blue-200 rounded-lg px-4 py-2">
-        <option value="">Svi gradovi</option>
-        <option v-for="g in gradovi" :key="g" :value="g">{{ g }}</option>
+  <div class="max-w-6xl mx-auto px-6 py-10">
+    <h1 class="text-3xl font-extrabold text-blue-950">Fakulteti</h1>
+    <p class="text-gray-500 mt-2">Visoka učilišta i njihovi studijski programi.</p>
+
+    <!-- pretraga i redoslijed -->
+    <div class="flex flex-col sm:flex-row gap-3 mt-6 mb-4">
+      <input v-model="pretraga" type="text" placeholder="Naziv fakulteta, sveučilište ili grad" class="flex-1 bg-white border border-stone-300 rounded-lg p-2.5 text-sm" />
+      <select v-model="smjer" class="bg-white border border-stone-300 rounded-lg p-2.5 text-sm text-gray-500">
+        <option value="az">Naziv A-Ž</option>
+        <option value="za">Naziv Ž-A</option>
       </select>
     </div>
 
-    <div v-if="grupirani.length === 0" class="bg-white border border-blue-200 rounded-lg p-8 text-center shadow-sm">
-      <p class="font-semibold text-blue-950">Nema fakulteta koji odgovaraju pretrazi.</p>
-      <p class="text-sm text-black/50 mt-1">Provjeri upit ili vrati filter na sve gradove.</p>
-    </div>
+    <p v-if="!prikazani.length" class="text-sm text-gray-500 mt-6">Nema fakulteta koji odgovaraju pretrazi.</p>
 
-    <div v-for="sveuciliste in grupirani" :key="sveuciliste.naziv" class="mb-10">
-      <div class="flex items-center gap-3 border-b-2 border-blue-400 pb-3 mb-5">
-        <h2 class="text-2xl font-bold text-blue-950">{{ sveuciliste.naziv }}</h2>
-        <span class="bg-blue-950 text-white text-xs font-semibold rounded-full px-3 py-1">{{ brojFakulteta(sveuciliste.fakulteti.length) }}</span>
-      </div>
-
-      <div class="grid grid-cols-2 gap-3">
-        <RouterLink v-for="fakultet in sveuciliste.fakulteti" :key="fakultet.id" :to="'/fakulteti/' + fakultet.id" class="block bg-white border border-blue-200 rounded-lg p-4 shadow-sm hover:border-blue-400">
-          <h3 class="font-semibold text-blue-950">{{ fakultet.naziv }}</h3>
-          <p class="text-sm mt-1 text-black/60">{{ fakultet.kratica }}, {{ fakultet.grad }}</p>
-        </RouterLink>
-      </div>
+    <div v-else class="flex flex-col gap-3">
+      <FakultetKartica v-for="fakultet in prikazani" :key="fakultet.id" :fakultet="fakultet" />
     </div>
   </div>
 </template>
