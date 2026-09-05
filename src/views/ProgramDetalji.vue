@@ -1,9 +1,9 @@
 <script setup>
 import { useRoute } from 'vue-router'
-import { GraduationCap, BookOpen, Users } from 'lucide-vue-next'
+import { GraduationCap, BookOpen, Users, Calculator } from 'lucide-vue-next'
 import { programi } from '../data/programi.js'
 import FavoritGumb from '../components/FavoritGumb.vue'
-
+import PopisPredmeta from '../components/PopisPredmeta.vue'
 
 const route = useRoute()
 const program = programi.find((p) => p.id === route.params.id)
@@ -53,7 +53,10 @@ const opis = 'text-sm text-gray-500 mt-1 mb-4'
           <p class="text-gray-500 mt-1">{{ program.fakultetNaziv }} · {{ program.grad }}</p>
         </div>
 
-        <FavoritGumb :program-id="program.id" class="ml-auto shrink-0" />
+        <div class="ml-auto shrink-0 flex gap-2">
+          <RouterLink :to="'/kalkulator/' + program.id" class="flex items-center gap-2 text-sm font-semibold text-white bg-blue-900 rounded-full px-4 py-2 hover:bg-blue-950"> <Calculator class="size-4" />Izračunaj bodove </RouterLink>
+          <FavoritGumb :program-id="program.id" />
+        </div>
       </div>
 
       <div class="flex flex-wrap gap-2 mt-5">
@@ -90,9 +93,7 @@ const opis = 'text-sm text-gray-500 mt-1 mb-4'
           <div v-if="izbor.predmeti.length > 2">
             <p class="font-medium text-blue-950">Jedan predmet s popisa</p>
             <p class="text-sm text-gray-500">{{ izbor.obavezan ? 'obavezan izbor' : 'po izboru' }} · ne donosi bodove</p>
-            <div class="flex flex-wrap gap-2 mt-3">
-              <span v-for="predmet in izbor.predmeti" :key="predmet" class="text-xs text-gray-600 border border-stone-200 rounded-full px-3 py-1">{{ predmet }}</span>
-            </div>
+            <PopisPredmeta :predmeti="izbor.predmeti" class="mt-3" />
           </div>
 
           <div v-else>

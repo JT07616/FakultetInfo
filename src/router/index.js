@@ -8,6 +8,7 @@ import Register from '../views/Register.vue'
 import MojPortal from '../views/MojPortal.vue'
 import FakultetDetalji from '../views/FakultetDetalji.vue'
 import ProgramDetalji from '../views/ProgramDetalji.vue'
+import Kalkulator from '../views/Kalkulator.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,7 +20,8 @@ const router = createRouter({
     { path: '/studijski-programi', name: 'studijski-programi', component: StudijskiProgrami },
     { path: '/mojportal', name: 'mojportal', component: MojPortal, meta: { requiresAuth: true } },
     { path: '/fakulteti/:id', name: 'fakultet-detalji', component: FakultetDetalji },
-    { path: '/studijski-programi/:id', name: 'program-detalji', component: ProgramDetalji }
+    { path: '/studijski-programi/:id', name: 'program-detalji', component: ProgramDetalji },
+    { path: '/kalkulator/:id', name: 'kalkulator', component: Kalkulator },
   ],
 })
 
