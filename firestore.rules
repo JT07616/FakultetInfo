@@ -8,17 +8,18 @@ service cloud.firestore {
         && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
     }
 
-    // korisnik cita i pise samo svoj profil
-    // role se postavlja na 'user' pri registraciji i poslije se ne smije mijenjati,
-    // inace bi si svatko mogao dati admina
+    // korisnik cita i pise samo svoj profil, admin cita sve i dodjeljuje uloge
+    // vlastitu rolu ne moze promijeniti nitko (ni admin sam sebi) - role se mijenja
+    // iskljucivo tudjem dokumentu, inace bi si svatko mogao dati admina
     match /users/{uid} {
-      allow read: if request.auth != null && request.auth.uid == uid;
+      allow read: if request.auth != null && (request.auth.uid == uid || jeAdmin());
       allow create: if request.auth != null
         && request.auth.uid == uid
         && request.resource.data.role == 'user';
-      allow update: if request.auth != null
-        && request.auth.uid == uid
-        && request.resource.data.role == resource.data.role;
+      allow update: if (jeAdmin() && request.auth.uid != uid)
+        || (request.auth != null
+          && request.auth.uid == uid
+          && request.resource.data.role == resource.data.role);
       allow delete: if false;
     }
   }

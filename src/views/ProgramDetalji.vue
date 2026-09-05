@@ -2,8 +2,11 @@
 import { useRoute } from 'vue-router'
 import { GraduationCap, BookOpen, Users, Calculator } from 'lucide-vue-next'
 import { programi } from '../data/programi.js'
+import { useAuthStore } from '../stores/authStore.js'
 import FavoritGumb from '../components/FavoritGumb.vue'
 import PopisPredmeta from '../components/PopisPredmeta.vue'
+
+const authStore = useAuthStore()
 
 const route = useRoute()
 const program = programi.find((p) => p.id === route.params.id)
@@ -37,7 +40,9 @@ const opis = 'text-sm text-gray-500 mt-1 mb-4'
 
 <template>
   <div class="max-w-4xl mx-auto px-6 py-10">
-    <RouterLink to="/studijski-programi" class="text-sm font-semibold text-blue-900 hover:text-blue-950">← Studijski programi</RouterLink>
+    <!-- predstavnik fakulteta se vraca na svoj fakultet, ostali na listu programa -->
+    <RouterLink v-if="program && authStore.isFakultet" :to="'/fakulteti/' + program.fakultetId" class="text-sm font-semibold text-blue-900 hover:text-blue-950">← Natrag na moj portal</RouterLink>
+    <RouterLink v-else to="/studijski-programi" class="text-sm font-semibold text-blue-900 hover:text-blue-950">← Studijski programi</RouterLink>
 
     <p v-if="!program" class="text-gray-500 mt-8">Studijski program nije pronađen.</p>
 
@@ -54,7 +59,9 @@ const opis = 'text-sm text-gray-500 mt-1 mb-4'
         </div>
 
         <div class="ml-auto shrink-0 flex gap-2">
-          <RouterLink :to="'/kalkulator/' + program.id" class="flex items-center gap-2 text-sm font-semibold text-white bg-blue-900 rounded-full px-4 py-2 hover:bg-blue-950"> <Calculator class="size-4" />Izračunaj bodove </RouterLink>
+          <!-- kalkulator je alat za maturante, predstavnik na istom mjestu unosi upisne podatke -->
+          <RouterLink v-if="!authStore.isFakultet" :to="'/kalkulator/' + program.id" class="flex items-center gap-2 text-sm font-semibold text-white bg-blue-900 rounded-full px-4 py-2 hover:bg-blue-950"> <Calculator class="size-4" />Izračunaj bodove </RouterLink>
+          <button v-else class="text-sm font-semibold text-white bg-blue-900 rounded-full px-4 py-2 hover:bg-blue-950">+ Dodaj upisne podatke</button>
           <FavoritGumb :program-id="program.id" />
         </div>
       </div>

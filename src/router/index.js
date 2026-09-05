@@ -9,6 +9,7 @@ import MojPortal from '../views/MojPortal.vue'
 import FakultetDetalji from '../views/FakultetDetalji.vue'
 import ProgramDetalji from '../views/ProgramDetalji.vue'
 import Kalkulator from '../views/Kalkulator.vue'
+import Admin from '../views/Admin.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,6 +17,7 @@ const router = createRouter({
     { path: '/', name: 'home', component: Home },
     { path: '/login', name: 'login', component: Login, meta: { samoGost: true } },
     { path: '/register', name: 'register', component: Register, meta: { samoGost: true } },
+    { path: '/admin', name: 'admin', component: Admin , meta: { requiresAdmin: true}},
     { path: '/fakulteti', name: 'fakulteti', component: Fakulteti },
     { path: '/studijski-programi', name: 'studijski-programi', component: StudijskiProgrami },
     { path: '/mojportal', name: 'mojportal', component: MojPortal, meta: { requiresAuth: true } },
@@ -34,6 +36,12 @@ router.beforeEach((to) => {
     return '/'
   }
   if (to.meta.samoGost && authStore.isLoggedIn) {
+    if (authStore.isAdmin) {
+      return '/admin'
+    }
+    if (authStore.isFakultet) {
+      return '/fakulteti/' + authStore.profil.fakultetId
+    }
     return '/mojportal'
   }
 })

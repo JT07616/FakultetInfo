@@ -20,6 +20,13 @@ export const useAuthStore = defineStore('auth', () => {
     return false
   })
 
+  const isFakultet = computed(function () {
+    if (profil.value) {
+      return profil.value.role === 'fakultet'
+    }
+    return false
+  })
+
   const username = computed(function () {
     if (profil.value) {
       return profil.value.username
@@ -34,8 +41,7 @@ export const useAuthStore = defineStore('auth', () => {
 
     const snapshot = await getDoc(doc(db, 'users', user.value.uid))
     if (snapshot.exists()) {
-      // stariji korisnici u bazi nemaju polje favoriti pa umjesto njega ide prazna lista
-      profil.value = { username: snapshot.data().username, role: snapshot.data().role, favoriti: snapshot.data().favoriti || [] }
+      profil.value = { username: snapshot.data().username, role: snapshot.data().role, favoriti: snapshot.data().favoriti || [], fakultetId: snapshot.data().fakultetId || '' }
     } else {
       profil.value = null
     }
@@ -45,9 +51,10 @@ export const useAuthStore = defineStore('auth', () => {
     try {
 
       const odgovor = await createUserWithEmailAndPassword(auth, email, lozinka)
-      // firebase auth ne zan za username ni role pa svoj dio drzim u firestoreu
+      // firebase auth ne zan za username ni role pa svoj dio drzim u firestoreu , email se kopira u dokument da ga admin vidi u listi korisnika
       await setDoc(doc(db, 'users', odgovor.user.uid), {
         username: korisnickoIme,
+        email: email,
         role: 'user',
         favoriti: [],
       })
@@ -111,7 +118,6 @@ export const useAuthStore = defineStore('auth', () => {
     })
   }
 
-  
 
- return { user, profil, isLoggedIn, isAdmin, username, init, registracija, prijava, odjava, loadProfil, toggleFavorit, spremiFavorite }
+ return { user, profil, isLoggedIn, isAdmin, isFakultet, username, init, registracija, prijava, odjava, loadProfil, toggleFavorit, spremiFavorite }
 })

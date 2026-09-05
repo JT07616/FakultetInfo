@@ -21,9 +21,11 @@ async function prijava() {
   salje.value = true
   try {
     await authStore.prijava(email.value, lozinka.value)
-    // admin ide na svoju radnu stranicu, korisnik na svoj portal
+    // svaka uloga ide na svoju stranicu
     if (authStore.isAdmin) {
-      router.push('/studijski-programi')
+      router.push('/admin')
+    } else if (authStore.isFakultet) {
+      router.push('/fakulteti/' + authStore.profil.fakultetId)
     } else {
       router.push('/mojportal')
     }

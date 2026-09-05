@@ -4,7 +4,9 @@ import { MapPin, Globe } from 'lucide-vue-next'
 import { fakulteti } from '../data/katalog.js'
 import { programi } from '../data/programi.js'
 import ProgramKartica from '../components/ProgramKartica.vue'
+import { useAuthStore } from '../stores/authStore.js'
 
+const authStore = useAuthStore()
 const route = useRoute()
 const fakultet = fakulteti.find((f) => f.id === route.params.id)
 
@@ -27,7 +29,8 @@ const opis = 'text-sm text-gray-500 mt-1 mb-4'
 
 <template>
   <div class="max-w-4xl mx-auto px-6 py-10">
-    <RouterLink to="/fakulteti" class="text-sm font-semibold text-blue-900 hover:text-blue-950">← Fakulteti</RouterLink>
+    <!-- predstavniku fakulteta je ovo pocetna stranica pa povratak na listu ne treba -->
+    <RouterLink v-if="!authStore.isFakultet" to="/fakulteti" class="text-sm font-semibold text-blue-900 hover:text-blue-950">← Fakulteti</RouterLink>
 
     <p v-if="!fakultet" class="text-gray-500 mt-8">Taj fakultet ne postoji.</p>
 
