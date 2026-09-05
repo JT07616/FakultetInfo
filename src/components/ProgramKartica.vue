@@ -1,5 +1,6 @@
 <script setup>
 import { MapPin, GraduationCap, BookOpen } from 'lucide-vue-next'
+import FavoritGumb from './FavoritGumb.vue'
 
 defineProps(['program'])
 </script>
@@ -20,6 +21,8 @@ defineProps(['program'])
           <MapPin class="size-3.5" />{{ program.grad }}
         </span>
       </span>
+
+      <FavoritGumb :program-id="program.id" :mala="true" class="ml-auto shrink-0" />
     </div>
 
     <div class="border-t border-stone-100 mt-4 pt-3 flex items-center justify-between gap-3 text-sm text-gray-500">

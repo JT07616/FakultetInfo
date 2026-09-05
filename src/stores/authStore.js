@@ -1,7 +1,7 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth'
-import { doc, setDoc, getDoc } from 'firebase/firestore'
+import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore'
 import { auth, db } from '../firebase/config.js'
 import { prevediGresku } from '../utils/greske.js'
 
@@ -34,7 +34,8 @@ export const useAuthStore = defineStore('auth', () => {
 
     const snapshot = await getDoc(doc(db, 'users', user.value.uid))
     if (snapshot.exists()) {
-      profil.value = { username: snapshot.data().username, role: snapshot.data().role }
+      // stariji korisnici u bazi nemaju polje favoriti pa umjesto njega ide prazna lista
+      profil.value = { username: snapshot.data().username, role: snapshot.data().role, favoriti: snapshot.data().favoriti || [] }
     } else {
       profil.value = null
     }
@@ -48,9 +49,10 @@ export const useAuthStore = defineStore('auth', () => {
       await setDoc(doc(db, 'users', odgovor.user.uid), {
         username: korisnickoIme,
         role: 'user',
+        favoriti: [],
       })
       user.value = odgovor.user
-      profil.value = { username: korisnickoIme, role: 'user' }
+      profil.value = { username: korisnickoIme, role: 'user', favoriti: [] }
     } catch (greska) {
       console.log(greska)
       throw new Error(prevediGresku(greska.code))
@@ -66,6 +68,23 @@ export const useAuthStore = defineStore('auth', () => {
       console.log(greska)
       throw new Error(prevediGresku(greska.code))
     }
+  }
+
+  async function spremiFavorite(novi) {
+    await updateDoc(doc(db, 'users', user.value.uid), { favoriti: novi })
+    profil.value.favoriti = novi
+  }
+
+  // dodaje studijski program u favorit, miči ga ako je tamo
+  async function toggleFavorit(programId) {
+    const novi = profil.value.favoriti.slice()
+    if (novi.includes(programId)) {
+      novi.splice(novi.indexOf(programId), 1)
+    } else {
+      novi.push(programId)
+    }
+
+    await spremiFavorite(novi)
   }
 
   async function odjava() {
@@ -94,5 +113,5 @@ export const useAuthStore = defineStore('auth', () => {
 
   
 
- return { user, profil, isLoggedIn, isAdmin, username, init, registracija, prijava, odjava, loadProfil }
+ return { user, profil, isLoggedIn, isAdmin, username, init, registracija, prijava, odjava, loadProfil, toggleFavorit, spremiFavorite }
 })

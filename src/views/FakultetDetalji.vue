@@ -61,7 +61,7 @@ const opis = 'text-sm text-gray-500 mt-1 mb-4'
       <h2 :class="naslov">Obavijesti</h2>
       <p :class="opis">Najave i rokovi vezani uz upise na ovaj fakultet.</p>
 
-      <p class="border-2 border-dashed border-stone-300 rounded-xl p-6 text-center text-sm text-gray-500">Još nema obavijesti za ovaj fakultet.</p>
+      <p class="text-sm text-gray-500">Još nema obavijesti za ovaj fakultet.</p>
     </template>
   </div>
 </template>

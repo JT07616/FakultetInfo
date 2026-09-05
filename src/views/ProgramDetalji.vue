@@ -2,6 +2,8 @@
 import { useRoute } from 'vue-router'
 import { GraduationCap, BookOpen, Users } from 'lucide-vue-next'
 import { programi } from '../data/programi.js'
+import FavoritGumb from '../components/FavoritGumb.vue'
+
 
 const route = useRoute()
 const program = programi.find((p) => p.id === route.params.id)
@@ -50,6 +52,8 @@ const opis = 'text-sm text-gray-500 mt-1 mb-4'
           <h1 class="text-3xl font-extrabold text-blue-950">{{ program.naziv }}</h1>
           <p class="text-gray-500 mt-1">{{ program.fakultetNaziv }} · {{ program.grad }}</p>
         </div>
+
+        <FavoritGumb :program-id="program.id" class="ml-auto shrink-0" />
       </div>
 
       <div class="flex flex-wrap gap-2 mt-5">
@@ -78,7 +82,7 @@ const opis = 'text-sm text-gray-500 mt-1 mb-4'
       <h2 :class="naslov">Izborni predmeti</h2>
       <p :class="opis">Predmeti koje kandidat sam bira na maturi.</p>
 
-      <p v-if="!program.izborni.length" class="border-2 border-dashed border-stone-300 rounded-xl p-6 text-center text-sm text-gray-500">Ovaj studij ne boduje izborne predmete.</p>
+      <p v-if="!program.izborni.length" class="text-sm text-gray-500">Ovaj studij ne boduje izborne predmete.</p>
 
       <div v-else :class="kartica">
         <!-- duzi popis - cipovi, kratki kao redak s trakom -->
