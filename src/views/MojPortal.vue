@@ -2,18 +2,31 @@
 import { computed } from 'vue'
 import { ChevronUp, ChevronDown } from 'lucide-vue-next'
 import { programi } from '../data/programi.js'
+import { fakulteti } from '../data/katalog.js'
 import { useAuthStore } from '../stores/authStore.js'
 import ProgramKartica from '../components/ProgramKartica.vue'
+import Obavijesti from '../components/Obavijesti.vue'
 
 const authStore = useAuthStore()
 
-// favoriti redom kako ih je korisnik poredao (redoslijed iz baze)
 const favoriti = computed(() => {
   const rezultat = []
   for (const id of authStore.profil.favoriti) {
     const program = programi.find((p) => p.id === id)
     if (program) {
       rezultat.push(program)
+    }
+  }
+  return rezultat
+})
+
+// jedinstveni fakulteti iz liste favorita (vise programa istog fakulteta = jedan unos)
+const fakultetiFavorita = computed(() => {
+  const rezultat = []
+  for (const program of favoriti.value) {
+    const fakultet = fakulteti.find((f) => f.id === program.fakultetId)
+    if (fakultet && !rezultat.includes(fakultet)) {
+      rezultat.push(fakultet)
     }
   }
   return rezultat
@@ -28,20 +41,20 @@ function pomakni(index, pomak) {
   authStore.spremiFavorite(novi)
 }
 
-const strelica = 'bg-white border border-stone-300 rounded-lg p-1 hover:border-blue-300 disabled:opacity-30 disabled:hover:border-stone-300'
+const strelica = 'bg-white border border-stone-300 rounded-lg p-1 enabled:hover:border-blue-300 disabled:opacity-30'
 </script>
 
 <template>
   <div class="max-w-6xl mx-auto px-6 py-10">
     <h1 class="text-3xl font-extrabold text-blue-950">Moj portal</h1>
 
-    <!-- lijevo lista prioriteta, desno obavijesti favorita -->
+    <!-- lista prioriteta -->
     <div class="grid gap-10 lg:grid-cols-2 mt-6">
       <div>
         <h2 class="text-xl font-extrabold text-blue-950">Moja lista prioriteta</h2>
-        <p class="text-sm text-gray-500 mt-1 mb-4">Poredaj studijskeprograme strelicama.</p>
+        <p class="text-sm text-gray-500 mt-1 mb-4">Poredaj studijske programe strelicama.</p>
 
-        <p v-if="!favoriti.length" class="text-sm text-gray-500">Još nemaš favorita, otvori studijski program i klikni "Dodaj u favorite".</p>
+        <p v-if="!favoriti.length" class="text-sm text-gray-500">Još nemaš favorita.</p>
 
         <div v-else class="flex flex-col gap-3">
           <div v-for="(program, index) in favoriti" :key="program.id" class="flex items-center gap-3">
@@ -55,12 +68,14 @@ const strelica = 'bg-white border border-stone-300 rounded-lg p-1 hover:border-b
           </div>
         </div>
       </div>
-
+      <!-- obavijesti od favorita -->
       <div>
         <h2 class="text-xl font-extrabold text-blue-950">Obavijesti</h2>
-        <p class="text-sm text-gray-500 mt-1 mb-4">Novosti fakulteta i programa s tvoje liste.</p>
+        <p class="text-sm text-gray-500 mt-1 mb-4">Novosti fakulteta s tvoje liste.</p>
 
-        <p class="text-sm text-gray-500">Ovdje će stizati obavijesti za tvoje favorite.</p>
+        <p v-if="!fakultetiFavorita.length" class="text-sm text-gray-500">Dodaj programe u favorite pa će se ovdje pojaviti obavijesti njihovih fakulteta.</p>
+
+        <Obavijesti v-for="fakultet in fakultetiFavorita" :key="fakultet.id" :fakultet-id="fakultet.id" :oznaka="fakultet.kratica + ' - ' + fakultet.naziv" :sakrij-prazno="true" class="mb-6" />
       </div>
     </div>
   </div>

@@ -6,18 +6,17 @@ import { CalendarDays } from 'lucide-vue-next'
 import { useAuthStore } from '../stores/authStore.js'
 import ConfirmModal from './ConfirmModal.vue'
 
-const props = defineProps(['fakultetId'])
+
+const props = defineProps(['fakultetId', 'oznaka', 'sakrijPrazno'])
 const authStore = useAuthStore()
 
 const obavijesti = ref([])
-// forma: kad se ureduje postojeca obavijest, tu je njen id
 const naslov = ref('')
 const tekst = ref('')
 const urediId = ref(null)
 const obavijestZaBrisanje = ref(null)
-const smijeUredjivati = computed(() => authStore.isFakultet && authStore.profil.fakultetId === props.fakultetId)
-// admin ne pise obavijesti, ali ih smije obrisati (moderacija)
-const smijeBrisati = computed(() => smijeUredjivati.value || authStore.isAdmin)
+const smijeUredjivati = computed(() => authStore.isFakultet && authStore.profil.fakultetId === props.fakultetId) 
+const smijeBrisati = computed(() => smijeUredjivati.value || authStore.isAdmin) // admin ne pise obavijesti, ali ih smije obrisati (moderacija)
 
 async function ucitajObavijesti() {
   const upit = query(collection(db, 'obavijesti'), where('fakultetId', '==', props.fakultetId))
@@ -32,7 +31,7 @@ async function ucitajObavijesti() {
       datum: dokument.data().datum.toDate(),
     })
   }
-  rezultat.sort((a, b) => b.datum - a.datum) // najnovije prvo
+  rezultat.sort((a, b) => b.datum - a.datum) 
   obavijesti.value = rezultat
 }
 
@@ -76,7 +75,9 @@ onMounted(ucitajObavijesti)
 </script>
 
 <template>
-  <div>
+  <div v-if="!sakrijPrazno || obavijesti.length">
+    <p v-if="oznaka" class="text-sm font-semibold text-gray-500 mb-2">{{ oznaka }}</p>
+
     <!-- predstavnik fakulteta -->
     <form v-if="smijeUredjivati" @submit.prevent="spremiObavijest" class="bg-white border border-stone-300 rounded-xl p-4 mb-4 flex flex-col gap-2">
       <p class="font-semibold text-blue-950">{{ urediId ? 'Uredi obavijest' : 'Nova obavijest' }}</p>

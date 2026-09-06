@@ -72,7 +72,8 @@ export function izracunajBodove(program, unosi) {
       if (izbor.obavezan && !pisan) {
         nedostaju.push(naziv)
       }
-      if (pisan && postotak < 50) {
+      // pao neobavezan izborni ne sprjecava upis, samo ne donosi bodove
+      if (izbor.obavezan && pisan && postotak < 50) {
         sviPolozeni = false
       }
       if (typeof izbor.prag === 'number' && pisan && postotak < izbor.prag) {
