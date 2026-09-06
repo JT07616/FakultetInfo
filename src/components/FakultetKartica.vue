@@ -4,7 +4,6 @@ import { programi } from '../data/programi.js'
 
 const props = defineProps(['fakultet'])
 
-// broj programa ovog fakulteta
 let brojPrograma = 0
 for (const program of programi) {
   if (program.fakultetId === props.fakultet.id) {

@@ -17,43 +17,29 @@ const urediId = ref(null)
 const obavijestZaBrisanje = ref(null)
 const smijeUredjivati = computed(() => authStore.isFakultet && authStore.profil.fakultetId === props.fakultetId) 
 const smijeBrisati = computed(() => smijeUredjivati.value || authStore.isAdmin) // admin ne pise obavijesti, ali ih smije obrisati (moderacija)
+const greska = ref('')
 
 async function ucitajObavijesti() {
-  const upit = query(collection(db, 'obavijesti'), where('fakultetId', '==', props.fakultetId))
-  const snapshot = await getDocs(upit)
+  greska.value = ''
+  try {
+    const upit = query(collection(db, 'obavijesti'), where('fakultetId', '==', props.fakultetId))
+    const snapshot = await getDocs(upit)
 
-  const rezultat = []
-  for (const dokument of snapshot.docs) {
-    rezultat.push({
-      id: dokument.id,
-      naslov: dokument.data().naslov,
-      tekst: dokument.data().tekst,
-      datum: dokument.data().datum.toDate(),
-    })
+    const rezultat = []
+    for (const dokument of snapshot.docs) {
+      rezultat.push({
+        id: dokument.id,
+        naslov: dokument.data().naslov,
+        tekst: dokument.data().tekst,
+        datum: dokument.data().datum.toDate(),
+      })
+    }
+    rezultat.sort((a, b) => b.datum - a.datum)
+    obavijesti.value = rezultat
+  } catch (e) {
+    console.error(e)
+    greska.value = 'Učitavanje obavijesti nije uspjelo.'
   }
-  rezultat.sort((a, b) => b.datum - a.datum) 
-  obavijesti.value = rezultat
-}
-
-async function spremiObavijest() {
-  if (urediId.value) {
-    await updateDoc(doc(db, 'obavijesti', urediId.value), { naslov: naslov.value, tekst: tekst.value })
-  } else {
-    await addDoc(collection(db, 'obavijesti'), {
-      fakultetId: props.fakultetId,
-      naslov: naslov.value,
-      tekst: tekst.value,
-      datum: new Date(),
-    })
-  }
-  odustani()
-  await ucitajObavijesti()
-}
-
-function popuniFormu(obavijest) {
-  urediId.value = obavijest.id
-  naslov.value = obavijest.naslov
-  tekst.value = obavijest.tekst
 }
 
 function odustani() {
@@ -62,9 +48,42 @@ function odustani() {
   tekst.value = ''
 }
 
+async function spremiObavijest() {
+  greska.value = ''
+  try {
+    if (urediId.value) {
+      await updateDoc(doc(db, 'obavijesti', urediId.value), { naslov: naslov.value, tekst: tekst.value })
+    } else {
+      await addDoc(collection(db, 'obavijesti'), {
+        fakultetId: props.fakultetId,
+        naslov: naslov.value,
+        tekst: tekst.value,
+        datum: new Date(),
+      })
+    }
+    odustani()
+    await ucitajObavijesti()
+  } catch (e) {
+    console.error(e)
+    greska.value = 'Spremanje obavijesti nije uspjelo.'
+  }
+}
+
+function popuniFormu(obavijest) {
+  urediId.value = obavijest.id
+  naslov.value = obavijest.naslov
+  tekst.value = obavijest.tekst
+}
+
 async function obrisi(obavijest) {
-  await deleteDoc(doc(db, 'obavijesti', obavijest.id))
-  await ucitajObavijesti()
+  greska.value = ''
+  try {
+    await deleteDoc(doc(db, 'obavijesti', obavijest.id))
+    await ucitajObavijesti()
+  } catch (e) {
+    console.error(e)
+    greska.value = 'Greska pri brisanju obavijesti.'
+  }
 }
 
 function danMjesec(datum) {
@@ -77,6 +96,8 @@ onMounted(ucitajObavijesti)
 <template>
   <div v-if="!sakrijPrazno || obavijesti.length">
     <p v-if="oznaka" class="text-sm font-semibold text-gray-500 mb-2">{{ oznaka }}</p>
+
+    <p v-if="greska" class="text-sm text-red-700 mb-3">{{ greska }}</p>
 
     <!-- predstavnik fakulteta -->
     <form v-if="smijeUredjivati" @submit.prevent="spremiObavijest" class="bg-white border border-stone-300 rounded-xl p-4 mb-4 flex flex-col gap-2">

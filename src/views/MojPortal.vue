@@ -33,12 +33,16 @@ const fakultetiFavorita = computed(() => {
 })
 
 // zamijeni favorit s onim iznad (pomak -1) ili ispod (pomak 1)
-function pomakni(index, pomak) {
+async function pomakni(index, pomak) {
   const novi = authStore.profil.favoriti.slice()
   const spremljeno = novi[index]
   novi[index] = novi[index + pomak]
   novi[index + pomak] = spremljeno
-  authStore.spremiFavorite(novi)
+  try {
+    await authStore.spremiFavorite(novi)
+  } catch (e) {
+    console.error(e)
+  }
 }
 
 const strelica = 'bg-white border border-stone-300 rounded-lg p-1 enabled:hover:border-blue-300 disabled:opacity-30'

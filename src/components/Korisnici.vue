@@ -8,35 +8,54 @@ import ConfirmModal from './ConfirmModal.vue'
 
 const korisnici = ref([])
 const pretraga = ref('')
+const greska = ref('')
 
 async function ucitajKorisnike() {
-  const snapshot = await getDocs(collection(db, 'users'))
-  const rezultat = []
-  for (const dokument of snapshot.docs) {
-    rezultat.push({
-      uid: dokument.id,
-      username: dokument.data().username,
-      email: dokument.data().email || '',
-      role: dokument.data().role,
-      fakultetId: dokument.data().fakultetId || '',
-      odabrani: '',
-    })
+  greska.value = ''
+  try {
+    const snapshot = await getDocs(collection(db, 'users'))
+    const rezultat = []
+    for (const dokument of snapshot.docs) {
+      rezultat.push({
+        uid: dokument.id,
+        username: dokument.data().username,
+        email: dokument.data().email || '',
+        role: dokument.data().role,
+        fakultetId: dokument.data().fakultetId || '',
+        odabrani: '',
+      })
+    }
+    korisnici.value = rezultat
+  } catch (e) {
+    console.error(e)
+    greska.value = 'Greška prilikom učitavnja korisnika.'
   }
-  korisnici.value = rezultat
 }
 
 const filtrirani = computed(() => korisnici.value.filter((k) => k.email.toLowerCase().includes(pretraga.value.toLowerCase())))
 
 async function dajUlogu(korisnik) {
-  await updateDoc(doc(db, 'users', korisnik.uid), { role: 'fakultet', fakultetId: korisnik.odabrani })
-  korisnik.role = 'fakultet'
-  korisnik.fakultetId = korisnik.odabrani
+  greska.value = ''
+  try {
+    await updateDoc(doc(db, 'users', korisnik.uid), { role: 'fakultet', fakultetId: korisnik.odabrani })
+    korisnik.role = 'fakultet'
+    korisnik.fakultetId = korisnik.odabrani
+  } catch (e) {
+    console.error(e)
+    greska.value = 'Promjena uloge nije uspjela.'
+  }
 }
 
 async function makniUlogu(korisnik) {
-  await updateDoc(doc(db, 'users', korisnik.uid), { role: 'user', fakultetId: '' })
-  korisnik.role = 'user'
-  korisnik.fakultetId = ''
+  greska.value = ''
+  try {
+    await updateDoc(doc(db, 'users', korisnik.uid), { role: 'user', fakultetId: '' })
+    korisnik.role = 'user'
+    korisnik.fakultetId = ''
+  } catch (e) {
+    console.error(e)
+    greska.value = 'Micanje uloge nije uspjelo.'
+  }
 }
 
 const korisnikZaDodjelu = ref(null)
@@ -48,6 +67,8 @@ onMounted(ucitajKorisnike)
 <template>
   <div>
     <input v-model="pretraga" type="text" placeholder="Pretraži po e-mail adresi" class="w-full bg-white border border-stone-300 rounded-lg p-2.5 text-sm mb-4" />
+
+    <p v-if="greska" class="text-sm text-red-700 mb-3">{{ greska }}</p>
 
     <div class="flex flex-col gap-3">
       <div v-for="korisnik in filtrirani" :key="korisnik.uid" class="bg-white border border-stone-300 rounded-xl px-5 py-4 flex flex-wrap items-center gap-3">

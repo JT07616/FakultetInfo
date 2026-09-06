@@ -11,12 +11,16 @@ const router = useRouter()
 
 const jeFavorit = computed(() => authStore.isLoggedIn && authStore.profil.favoriti.includes(props.programId))
 
-function klik() {
+async function klik() {
   if (!authStore.isLoggedIn) {
     router.push('/login')
     return
   }
-  authStore.toggleFavorit(props.programId)
+  try {
+    await authStore.toggleFavorit(props.programId)
+  } catch (e) {
+    console.error(e)
+  }
 }
 </script>
 
