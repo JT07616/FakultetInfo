@@ -60,7 +60,7 @@ onMounted(ucitajKorisnike)
 
         <template v-else-if="korisnik.role === 'fakultet'">
           <span class="text-sm font-semibold text-blue-950">predstavnik: {{ korisnik.fakultetId.toUpperCase() }}</span>
-          <button @click="korisnikZaMicanje = korisnik" class="bg-red-700 text-white text-sm font-semibold rounded-lg px-4 py-2 hover:bg-red-800">Makni ulogu</button>
+          <button @click="korisnikZaMicanje = korisnik" class="bg-red-700 text-white text-sm font-semibold rounded-lg px-4 py-2 hover:bg-red-800">- Makni ulogu</button>
         </template>
 
         <template v-else>
@@ -68,7 +68,7 @@ onMounted(ucitajKorisnike)
             <option value="" disabled>Odaberi fakultet</option>
             <option v-for="fakultet in fakulteti" :key="fakultet.id" :value="fakultet.id">{{ fakultet.kratica }} - {{ fakultet.naziv }}</option>
           </select>
-          <button @click="korisnikZaDodjelu = korisnik" :disabled="!korisnik.odabrani" class="bg-blue-900 text-white text-sm font-semibold rounded-lg px-4 py-2 hover:bg-blue-950 disabled:opacity-50">Daj ulogu</button>
+          <button @click="korisnikZaDodjelu = korisnik" :disabled="!korisnik.odabrani" class="bg-blue-900 text-white text-sm font-semibold rounded-lg px-4 py-2 hover:bg-blue-950 disabled:opacity-50">+ Daj ulogu</button>
         </template>
       </div>
     </div>

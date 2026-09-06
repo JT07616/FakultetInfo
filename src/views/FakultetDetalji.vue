@@ -4,6 +4,7 @@ import { MapPin, Globe } from 'lucide-vue-next'
 import { fakulteti } from '../data/katalog.js'
 import { programi } from '../data/programi.js'
 import ProgramKartica from '../components/ProgramKartica.vue'
+import Obavijesti from '../components/Obavijesti.vue'
 import { useAuthStore } from '../stores/authStore.js'
 
 const authStore = useAuthStore()
@@ -21,7 +22,6 @@ if (fakultet) {
   }
 }
 
-// ponavljajuce klase
 const znacka = 'flex items-center gap-2 text-sm text-gray-600 bg-white border border-stone-300 rounded-full px-3 py-1.5'
 const naslov = 'text-xl font-extrabold text-blue-950 mt-10'
 const opis = 'text-sm text-gray-500 mt-1 mb-4'
@@ -60,11 +60,11 @@ const opis = 'text-sm text-gray-500 mt-1 mb-4'
         <ProgramKartica v-for="program in njegoviProgrami" :key="program.id" :program="program" />
       </div>
 
-      <!-- obavijesti ce dodavati administrator -->
+      <!-- obavijesti dodaje predstavnik fakulteta -->
       <h2 :class="naslov">Obavijesti</h2>
       <p :class="opis">Najave i rokovi vezani uz upise na ovaj fakultet.</p>
 
-      <p class="text-sm text-gray-500">Još nema obavijesti za ovaj fakultet.</p>
+      <Obavijesti :fakultet-id="fakultet.id" />
     </template>
   </div>
 </template>

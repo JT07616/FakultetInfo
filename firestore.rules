@@ -8,6 +8,12 @@ service cloud.firestore {
         && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
     }
 
+    function jeFakultet(fakultetId) {
+      return request.auth != null
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'fakultet'
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.fakultetId == fakultetId;
+    }
+
     // korisnik cita i pise samo svoj profil, admin cita sve i dodjeljuje uloge
     // vlastitu rolu ne moze promijeniti nitko (ni admin sam sebi) - role se mijenja
     // iskljucivo tudjem dokumentu, inace bi si svatko mogao dati admina
@@ -21,6 +27,15 @@ service cloud.firestore {
           && request.auth.uid == uid
           && request.resource.data.role == resource.data.role);
       allow delete: if false;
+    }
+
+    // obavijesti cita svatko, objavljuje ih predstavnik iskljucivo za svoj fakultet,
+    // a admin ih smije samo obrisati (moderacija)
+    match /obavijesti/{id} {
+      allow read: if true;
+      allow create: if jeFakultet(request.resource.data.fakultetId);
+      allow update: if jeFakultet(resource.data.fakultetId);
+      allow delete: if jeFakultet(resource.data.fakultetId) || jeAdmin();
     }
   }
 }
