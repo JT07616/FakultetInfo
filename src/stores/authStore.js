@@ -101,11 +101,10 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   // firebase pri pokretanju sam provjeri ima li spremljenu prijavu, pa čekam taj prvi odgovor
-  async function init() {
+  function init() {
     return new Promise(function (resolve) {
       onAuthStateChanged(auth, async function (noviUser) {
         user.value = noviUser
-
         try {
           await loadProfil()
         } catch (greska) {

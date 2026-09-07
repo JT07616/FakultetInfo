@@ -22,7 +22,6 @@ if (fakultet) {
   }
 }
 
-const znacka = 'flex items-center gap-2 text-sm text-gray-600 bg-white border border-stone-300 rounded-full px-3 py-1.5'
 const naslov = 'text-xl font-extrabold text-blue-950 mt-10'
 const opis = 'text-sm text-gray-500 mt-1 mb-4'
 </script>
@@ -47,9 +46,9 @@ const opis = 'text-sm text-gray-500 mt-1 mb-4'
         </div>
       </div>
 
-      <div class="flex flex-wrap gap-2 mt-5">
-        <span :class="znacka"><MapPin class="size-4" />{{ fakultet.adresa }}</span>
-        <a :href="fakultet.web" target="_blank" :class="znacka" class="font-semibold text-blue-900 hover:border-blue-300"><Globe class="size-4" />{{ fakultet.web.replace('https://', '') }}</a>
+      <div class="inline-flex flex-wrap gap-5 mt-5 text-sm text-gray-600 bg-white border border-stone-300 rounded-lg px-4 py-2.5">
+        <span class="flex items-center gap-2 border-r border-stone-300 pr-5"><MapPin class="size-4" />{{ fakultet.adresa }}</span>
+        <a :href="fakultet.web" target="_blank" class="flex items-center gap-2 font-semibold text-blue-900 hover:text-blue-950"><Globe class="size-4" />{{ fakultet.web.replace('https://', '') }}</a>
       </div>
 
       <!-- studijski programi fakulteta -->

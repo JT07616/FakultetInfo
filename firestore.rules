@@ -37,5 +37,13 @@ service cloud.firestore {
       allow update: if jeFakultet(resource.data.fakultetId);
       allow delete: if jeFakultet(resource.data.fakultetId) || jeAdmin();
     }
+
+    // upisne podatke cita svatko, unosi i ureduje ih iskljucivo predstavnik svog fakulteta
+    match /upisi/{id} {
+      allow read: if true;
+      allow create: if jeFakultet(request.resource.data.fakultetId);
+      allow update: if jeFakultet(resource.data.fakultetId);
+      allow delete: if jeFakultet(resource.data.fakultetId);
+    }
   }
 }

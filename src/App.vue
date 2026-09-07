@@ -5,7 +5,7 @@ import { useAuthStore } from './stores/authStore.js'
 const authStore = useAuthStore()
 const router = useRouter()
 
-const veza = 'text-base font-extrabold text-blue-200 hover:text-white'
+const veza = 'text-base font-extrabold text-white hover:text-yellow-150'
 const aktivna = 'text-orange-200'
 
 async function odjaviSe() {
