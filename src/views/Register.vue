@@ -20,6 +20,9 @@ function provjeriUnos() {
    return 'Sva polja su obavezna!'
    
   }
+  if (korisnickoIme.value.length < 3 || korisnickoIme.value.length > 20) {
+    return 'Korisničko ime mora imati između 3 i 20 znakova.'
+  }
   if (lozinka.value.length < 6) {
     return 'Lozinka mora imati barem 6 znakova.'
   }
@@ -47,7 +50,7 @@ async function registracija(){
     uspjeh.value = 'Registracija uspješna. Preusmjeravam...'
 
     setTimeout(function () {
-      router.push('/mojportal')
+      router.push('/lista-prioriteta')
     }, 1500)
 
     return
@@ -69,7 +72,7 @@ async function registracija(){
       </div>
       <div class="flex flex-col gap-1">
         <label class="font-semibold">Korisničko ime:</label>
-        <input v-model="korisnickoIme" type="text" class="bg-white border border-gray-300 rounded-lg px-3 py-2" placeholder="Korisničko ime" />
+        <input v-model="korisnickoIme" type="text" maxlength="20" class="bg-white border border-gray-300 rounded-lg px-3 py-2" placeholder="Korisničko ime" />
       </div>
 
       <div class="flex flex-col gap-1">

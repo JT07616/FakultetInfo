@@ -88,13 +88,11 @@ const strelica = 'bg-white border border-stone-300 rounded-lg p-1 enabled:hover:
 
 <template>
   <div class="max-w-6xl mx-auto px-6 py-10">
-    <h1 class="text-3xl font-extrabold text-blue-950">Moj portal</h1>
+    <h1 class="text-3xl font-extrabold text-blue-950">Lista prioriteta</h1>
+    <p class="text-sm text-gray-500 mt-1">Poredaj studijske programe strelicama.</p>
 
     <div class="grid gap-10 lg:grid-cols-2 mt-6">
       <div>
-        <!-- lista prioriteta -->
-        <h2 class="text-xl font-extrabold text-blue-950">Moja lista prioriteta</h2>
-        <p class="text-sm text-gray-500 mt-1 mb-4">Poredaj studijske programe strelicama.</p>
 
         <p v-if="greska" class="text-sm text-red-700 mb-3">{{ greska }}</p>
         <p v-if="!favoriti.length" class="text-sm text-gray-500">Još nemaš favorita.</p>
