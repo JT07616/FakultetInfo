@@ -1,12 +1,10 @@
 ﻿// slike (logotipi) fakulteta
 import slikaFipu from '../assets/slike/fipu.png'
-import slikaEfzg from '../assets/slike/efzg.png'
 import slikaPmf from '../assets/slike/pmf.png'
 import slikaFesb from '../assets/slike/fesb.png'
 import slikaFerit from '../assets/slike/ferit.png'
 import slikaRiteh from '../assets/slike/riteh.png'
 import slikaPfzg from '../assets/slike/pfzg.jpg'
-import slikaFfzg from '../assets/slike/ffzg.jpg'
 import slikaFoi from '../assets/slike/foi.png'
 import slikaFer from '../assets/slike/fer.png'
 import slikaFsb from '../assets/slike/fsb.png'
@@ -14,7 +12,6 @@ import slikaPmfst from '../assets/slike/pmfst.png'
 import slikaEfst from '../assets/slike/efst.jpg'
 import slikaEfri from '../assets/slike/efri.jpg'
 import slikaFidit from '../assets/slike/fidit.jpg'
-import slikaEfos from '../assets/slike/efos.png'
 import slikaOiz from '../assets/slike/oiz.png'
 import slikaFepr from '../assets/slike/fepr.png'
 import slikaTeho from '../assets/slike/teho.png'
@@ -35,15 +32,6 @@ export const sveucilista = [
         slika: slikaPmf,
       },
       {
-        id: 'efzg',
-        kratica: 'EFZG',
-        naziv: 'Ekonomski fakultet',
-        grad: 'Zagreb',
-        adresa: 'Trg J. F. Kennedyja 6, 10000 Zagreb',
-        web: 'https://www.efzg.unizg.hr',
-        slika: slikaEfzg,
-      },
-      {
         id: 'pfzg',
         kratica: 'PFZG',
         naziv: 'Pravni fakultet',
@@ -51,15 +39,6 @@ export const sveucilista = [
         adresa: 'Trg Republike Hrvatske 14, 10000 Zagreb',
         web: 'https://www.pravo.unizg.hr',
         slika: slikaPfzg,
-      },
-      {
-        id: 'ffzg',
-        kratica: 'FFZG',
-        naziv: 'Filozofski fakultet',
-        grad: 'Zagreb',
-        adresa: 'Ivana Lučića 3, 10000 Zagreb',
-        web: 'https://www.ffzg.unizg.hr',
-        slika: slikaFfzg,
       },
       {
         id: 'foi',
@@ -168,15 +147,6 @@ export const sveucilista = [
         adresa: 'Kneza Trpimira 2B, 31000 Osijek',
         web: 'https://www.ferit.unios.hr',
         slika: slikaFerit,
-      },
-      {
-        id: 'efos',
-        kratica: 'EFOS',
-        naziv: 'Ekonomski fakultet',
-        grad: 'Osijek',
-        adresa: 'Trg Ljudevita Gaja 7, 31000 Osijek',
-        web: 'https://www.efos.unios.hr',
-        slika: slikaEfos,
       },
     ],
   },
