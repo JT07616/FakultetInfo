@@ -6,7 +6,6 @@ defineProps(['program'])
 </script>
 
 <template>
-  <!-- kartica: logo u plocici, naziv i fakultet, u podnozju razina i podrucje -->
   <RouterLink :to="'/studijski-programi/' + program.id" class="bg-white border border-stone-300 rounded-xl p-5 shadow-sm flex flex-col hover:border-blue-300 hover:shadow-md">
     <div class="flex-1 flex items-start gap-3.5">
       <span class="size-13 shrink-0 flex items-center justify-center bg-stone-50 border border-stone-200 rounded-xl">
@@ -29,5 +28,8 @@ defineProps(['program'])
       <span class="flex items-center gap-1.5"><GraduationCap class="size-4" />{{ program.razina }}</span>
       <span class="flex items-center gap-1.5"><BookOpen class="size-4" />{{ program.podrucje }}</span>
     </div>
+
+    <!-- moj portal,  za rokove -->
+    <slot></slot>
   </RouterLink>
 </template>
