@@ -14,9 +14,7 @@ service cloud.firestore {
         && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.fakultetId == fakultetId;
     }
 
-    // korisnik cita i pise samo svoj profil, admin cita sve i dodjeljuje uloge
-    // vlastitu rolu ne moze promijeniti nitko (ni admin sam sebi) - role se mijenja
-    // iskljucivo tudjem dokumentu, inace bi si svatko mogao dati admina
+    // svatko svoj profil, admin dodjeljuje uloge ali samo tudjima (inace bi si svatko dao admina)
     match /users/{uid} {
       allow read: if request.auth != null && (request.auth.uid == uid || jeAdmin());
       allow create: if request.auth != null
@@ -29,8 +27,7 @@ service cloud.firestore {
       allow delete: if false;
     }
 
-    // obavijesti cita svatko, objavljuje ih predstavnik iskljucivo za svoj fakultet,
-    // a admin ih smije samo obrisati (moderacija)
+    // cita svatko, pise predstavnik svog fakulteta, admin samo brise (moderacija)
     match /obavijesti/{id} {
       allow read: if true;
       allow create: if jeFakultet(request.resource.data.fakultetId);
@@ -38,12 +35,35 @@ service cloud.firestore {
       allow delete: if jeFakultet(resource.data.fakultetId) || jeAdmin();
     }
 
-    // upisne podatke cita svatko, unosi i ureduje ih iskljucivo predstavnik svog fakulteta
+    // cita svatko, unosi samo predstavnik svog fakulteta
     match /upisi/{id} {
       allow read: if true;
       allow create: if jeFakultet(request.resource.data.fakultetId);
       allow update: if jeFakultet(resource.data.fakultetId);
       allow delete: if jeFakultet(resource.data.fakultetId);
+    }
+
+    // postavlja prijavljeni u svoje ime, brise autor/predstavnik/admin (s pitanjem idu i odgovori)
+    match /pitanja/{id} {
+      allow read: if true;
+      allow create: if request.auth != null && request.resource.data.uid == request.auth.uid;
+      allow update: if false;
+      allow delete: if (request.auth != null && resource.data.uid == request.auth.uid)
+        || jeFakultet(resource.data.fakultetId)
+        || jeAdmin();
+    }
+
+    // odgovara svaki prijavljeni, sluzbeni odgovor smije oznaciti samo pravi predstavnik
+    match /odgovori/{id} {
+      allow read: if true;
+      allow create: if request.auth != null
+        && request.resource.data.uid == request.auth.uid
+        && (request.resource.data.sluzbeni == false || jeFakultet(request.resource.data.fakultetId));
+      allow update: if false;
+      allow delete: if (request.auth != null && resource.data.uid == request.auth.uid)
+        || (request.auth != null && resource.data.pitanjeUid == request.auth.uid)
+        || jeFakultet(resource.data.fakultetId)
+        || jeAdmin();
     }
   }
 }

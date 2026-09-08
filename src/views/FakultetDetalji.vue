@@ -1,26 +1,29 @@
 <script setup>
+import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { MapPin, Globe } from 'lucide-vue-next'
 import { fakulteti } from '../data/katalog.js'
 import { programi } from '../data/programi.js'
 import ProgramKartica from '../components/ProgramKartica.vue'
 import Obavijesti from '../components/Obavijesti.vue'
+import Pitanja from '../components/Pitanja.vue'
 import { useAuthStore } from '../stores/authStore.js'
 
 const authStore = useAuthStore()
 const route = useRoute()
 const fakultet = fakulteti.find((f) => f.id === route.params.id)
 
-// studijski programi ovog fakulteta
-const njegoviProgrami = []
+const programiFakulteta = []
 
 if (fakultet) {
   for (const program of programi) {
     if (program.fakultetId === fakultet.id) {
-      njegoviProgrami.push(program)
+      programiFakulteta.push(program)
     }
   }
 }
+
+const aktivniTab = ref('obavijesti')
 
 const naslov = 'text-xl font-extrabold text-blue-950 mt-10'
 const opis = 'text-sm text-gray-500 mt-1 mb-4'
@@ -56,14 +59,17 @@ const opis = 'text-sm text-gray-500 mt-1 mb-4'
       <p :class="opis">Programi koje fakultet nudi u nacionalnom sustavu prijava.</p>
 
       <div class="grid sm:grid-cols-2 gap-3">
-        <ProgramKartica v-for="program in njegoviProgrami" :key="program.id" :program="program" />
+        <ProgramKartica v-for="program in programiFakulteta" :key="program.id" :program="program" />
       </div>
 
-      <!-- obavijesti dodaje predstavnik fakulteta -->
-      <h2 :class="naslov">Obavijesti</h2>
-      <p :class="opis">Najave i rokovi vezani uz upise na ovaj fakultet.</p>
+      <!-- obavijesti i pitanja dijele mjesto, biraju se tabovima -->
+      <div class="flex gap-6 mt-10 mb-4">
+        <button @click="aktivniTab = 'obavijesti'" class="text-xl font-extrabold" :class="aktivniTab === 'obavijesti' ? 'text-blue-950' : 'text-gray-400'">Obavijesti</button>
+        <button @click="aktivniTab = 'pitanja'" class="text-xl font-extrabold" :class="aktivniTab === 'pitanja' ? 'text-blue-950' : 'text-gray-400'">Pitanja</button>
+      </div>
 
-      <Obavijesti :fakultet-id="fakultet.id" />
+      <Obavijesti v-if="aktivniTab === 'obavijesti'" :fakultet-id="fakultet.id" />
+      <Pitanja v-else :fakultet-id="fakultet.id" />
     </template>
   </div>
 </template>
