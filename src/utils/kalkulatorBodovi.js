@@ -101,7 +101,7 @@ export function izracunajBodove(program, unosi) {
 
   // dio programa ostatak bodova daje za natjecanja i slicno, to ne racunamo
   if (zbrojTezina < 99.9) {
-    napomene.push('program dodatno boduje posebna postignuća (npr. natjecanja) koja kalkulator ne obuhvaća — ' + Math.round(100 - zbrojTezina) + ' % ukupnih bodova')
+    napomene.push('studijski program dodatno boduje posebna postignuća (npr. natjecanja) koja kalkulator ne obuhvaća — ' + Math.round(100 - zbrojTezina) + ' % ukupnih bodova')
   }
 
   const skalirano = []

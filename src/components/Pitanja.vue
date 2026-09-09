@@ -3,16 +3,22 @@ import { ref, computed, onMounted } from 'vue'
 import { collection, query, where, getDocs, addDoc, deleteDoc, doc } from 'firebase/firestore'
 import { db } from '../firebase/config.js'
 import { useAuthStore } from '../stores/authStore.js'
+import { fakulteti } from '../data/katalog.js'
 import ConfirmModal from './ConfirmModal.vue'
 
 const props = defineProps(['fakultetId'])
 const authStore = useAuthStore()
+
+// sluzbeni odgovori se prikazuju s imenom fakulteta, ne s usernameom predstavnika
+const fakultet = fakulteti.find((f) => f.id === props.fakultetId)
+const nazivFakulteta = fakultet ? fakultet.naziv : ''
 
 const pitanja = ref([])
 const novoPitanje = ref('')
 const odgovorNa = ref(null) // id pitanja na koje se trenutno odgovara
 const noviOdgovor = ref('')
 const pitanjeZaBrisanje = ref(null)
+const odgovorZaBrisanje = ref(null)
 const jePredstavnik = computed(() => authStore.isFakultet && authStore.profil.fakultetId === props.fakultetId)
 const greska = ref('')
 
@@ -42,6 +48,7 @@ async function loadPitanja() {
           id: dokument.id,
           tekst: dokument.data().tekst,
           username: dokument.data().username,
+          uid: dokument.data().uid,
           sluzbeni: dokument.data().sluzbeni,
           datum: dokument.data().datum.toDate(),
         })
@@ -113,6 +120,17 @@ async function obrisiPitanje(pitanje) {
   }
 }
 
+async function obrisiOdgovor(odgovor) {
+  greska.value = ''
+  try {
+    await deleteDoc(doc(db, 'odgovori', odgovor.id))
+    await loadPitanja()
+  } catch (e) {
+    console.error(e)
+    greska.value = 'Brisanje odgovora nije uspjelo.'
+  }
+}
+
 function inicijal(username) {
   return username[0].toUpperCase()
 }
@@ -160,10 +178,11 @@ onMounted(loadPitanja)
         <!-- odgovori na pitanje -->
         <div v-for="odgovor in pitanje.odgovori" :key="odgovor.id" class="bg-stone-50 border border-stone-200 rounded-lg p-3 mt-3 ml-6">
           <div class="flex items-center gap-2">
-            <div class="size-7 shrink-0 flex items-center justify-center font-bold text-xs rounded-full" :class="odgovor.sluzbeni ? 'bg-blue-950 text-yellow-300' : 'bg-blue-100 text-blue-900'">{{ inicijal(odgovor.username) }}</div>
-            <p class="text-sm font-semibold text-blue-950">{{ odgovor.username }}</p>
+            <div class="size-7 shrink-0 flex items-center justify-center font-bold text-xs rounded-full" :class="odgovor.sluzbeni ? 'bg-blue-950 text-yellow-300' : 'bg-blue-100 text-blue-900'">{{ inicijal(odgovor.sluzbeni ? nazivFakulteta : odgovor.username) }}</div>
+            <p class="text-sm font-semibold text-blue-950">{{ odgovor.sluzbeni ? nazivFakulteta : odgovor.username }}</p>
             <span v-if="odgovor.sluzbeni" class="bg-yellow-300 text-blue-950 text-xs font-bold rounded px-1.5 py-0.5">FAKULTET</span>
             <p class="text-xs text-gray-500 ml-auto">{{ prikaziDatum(odgovor.datum) }}</p>
+            <button v-if="authStore.user && (authStore.user.uid === odgovor.uid || jePredstavnik || authStore.isAdmin)" @click="odgovorZaBrisanje = odgovor" class="text-xs font-semibold text-red-700">Obriši</button>
           </div>
           <p class="text-sm text-gray-700 mt-2">{{ odgovor.tekst }}</p>
         </div>
@@ -172,6 +191,7 @@ onMounted(loadPitanja)
           <form v-if="odgovorNa === pitanje.id" @submit.prevent="posaljiOdgovor(pitanje)" class="flex gap-2 ml-6">
             <input v-model="noviOdgovor" type="text" placeholder="Tvoj odgovor" required class="flex-1 bg-white border border-stone-300 rounded-lg p-2 text-sm" />
             <button class="bg-blue-900 text-white text-sm font-semibold rounded-lg px-4 hover:bg-blue-950">Odgovori</button>
+            <button type="button" @click="odgovorNa = null" class="bg-gray-200 text-gray-700 text-sm font-semibold rounded-lg px-4 hover:bg-gray-100">Odustani</button>
           </form>
           <div v-else class="flex items-center gap-4">
             <button @click="odgovorNa = pitanje.id; noviOdgovor = ''" class="text-sm font-semibold text-blue-900">Odgovori</button>
@@ -184,9 +204,15 @@ onMounted(loadPitanja)
 
     <ConfirmModal
       v-if="pitanjeZaBrisanje"
-      tekst="Obrisati ovo pitanje?"
+      tekst="Obrisati ovo pitanje i sve odgovore na njega?"
       @potvrdi="obrisiPitanje(pitanjeZaBrisanje); pitanjeZaBrisanje = null"
       @odustani="pitanjeZaBrisanje = null"
+    />
+    <ConfirmModal
+      v-if="odgovorZaBrisanje"
+      tekst="Obrisati ovaj odgovor?"
+      @potvrdi="obrisiOdgovor(odgovorZaBrisanje); odgovorZaBrisanje = null"
+      @odustani="odgovorZaBrisanje = null"
     />
   </div>
 </template>
