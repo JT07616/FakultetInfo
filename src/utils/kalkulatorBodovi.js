@@ -91,23 +91,27 @@ export function izracunajBodove(program, unosi) {
     }
   }
 
-  // tezine se zbroje pa se sve skalira na 1000 bodova
+  // postoci su sluzbeni udjeli od ukupnih 1000 bodova pa se samo mnoze s 10
   let zbrojTezina = 0
   let zbrojBodova = 0
   for (const redak of razrada) {
     zbrojTezina += redak.maks
     zbrojBodova += redak.bodovi
   }
-  const faktor = 1000 / zbrojTezina
+
+  // dio programa ostatak bodova daje za natjecanja i slicno, to ne racunamo
+  if (zbrojTezina < 99.9) {
+    napomene.push('program dodatno boduje posebna postignuća (npr. natjecanja) koja kalkulator ne obuhvaća — ' + Math.round(100 - zbrojTezina) + ' % ukupnih bodova')
+  }
 
   const skalirano = []
   for (const redak of razrada) {
-    skalirano.push({ naziv: redak.naziv, maks: Math.round(redak.maks * faktor), bodovi: Math.round(redak.bodovi * faktor) })
+    skalirano.push({ naziv: redak.naziv, maks: Math.round(redak.maks * 10), bodovi: Math.round(redak.bodovi * 10) })
   }
 
   const polozenaMatura = prosjek >= 2 && sviPolozeni
   return {
-    ukupno: Math.round(zbrojBodova * faktor),
+    ukupno: Math.round(zbrojBodova * 10),
     razrada: skalirano,
     nedostaju: nedostaju,
     kriveRazine: kriveRazine,

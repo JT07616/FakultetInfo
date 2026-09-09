@@ -10,7 +10,6 @@ const popis = [
     naziv: 'Računarstvo',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Tehničke znanosti',
-    kvota: 74,
     bodovanje: {
       prosjek: 40.0,
       hrvatski: { razina: 'B', postotak: 0.0 },
@@ -28,7 +27,6 @@ const popis = [
     naziv: 'Elektrotehnika i informacijska tehnologija',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Tehničke znanosti',
-    kvota: 70,
     bodovanje: {
       prosjek: 40.0,
       hrvatski: { razina: 'B', postotak: 0.0 },
@@ -46,7 +44,6 @@ const popis = [
     naziv: 'Strojarstvo',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Tehničke znanosti',
-    kvota: 35,
     bodovanje: {
       prosjek: 40.0,
       hrvatski: { razina: 'B', postotak: 0.0 },
@@ -63,7 +60,6 @@ const popis = [
     naziv: 'Brodogradnja',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Tehničke znanosti',
-    kvota: 12,
     bodovanje: {
       prosjek: 40.0,
       hrvatski: { razina: 'B', postotak: 0.0 },
@@ -80,7 +76,6 @@ const popis = [
     naziv: 'Industrijsko inženjerstvo',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Tehničke znanosti',
-    kvota: 30,
     bodovanje: {
       prosjek: 40.0,
       hrvatski: { razina: 'B', postotak: 0.0 },
@@ -98,7 +93,6 @@ const popis = [
     naziv: 'Računarstvo',
     razina: 'Prijediplomski stručni',
     podrucje: 'Tehničke znanosti',
-    kvota: 20,
     bodovanje: {
       prosjek: 40.0,
       hrvatski: { razina: 'B', postotak: 0.0 },
@@ -116,7 +110,6 @@ const popis = [
     naziv: 'Elektrotehnika i informacijska tehnologija i Računarstvo',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Tehničke znanosti',
-    kvota: null,
     bodovanje: {
       prosjek: 40.0,
       hrvatski: { razina: 'B', postotak: 0.0 },
@@ -133,7 +126,6 @@ const popis = [
     naziv: 'Matematika',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Prirodne znanosti',
-    kvota: 8,
     bodovanje: {
       prosjek: 30.0,
       hrvatski: { razina: 'B', postotak: 0.0 },
@@ -148,7 +140,6 @@ const popis = [
     naziv: 'Fizika; modul: istraživački',
     razina: 'Integrirani prijediplomski i diplomski',
     podrucje: 'Prirodne znanosti',
-    kvota: 17,
     bodovanje: {
       prosjek: 30.0,
       hrvatski: { razina: 'B', postotak: 0.0 },
@@ -165,7 +156,6 @@ const popis = [
     naziv: 'Biologija',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Prirodne znanosti',
-    kvota: null,
     bodovanje: {
       prosjek: 30.0,
       hrvatski: { razina: 'A', postotak: 3.0 },
@@ -183,7 +173,6 @@ const popis = [
     naziv: 'Kemija',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Prirodne znanosti',
-    kvota: 26,
     bodovanje: {
       prosjek: 25.0,
       hrvatski: { razina: 'B', postotak: 0.0 },
@@ -202,7 +191,6 @@ const popis = [
     naziv: 'Molekularna biologija',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Prirodne znanosti',
-    kvota: null,
     bodovanje: {
       prosjek: 30.0,
       hrvatski: { razina: 'A', postotak: 3.0 },
@@ -220,7 +208,6 @@ const popis = [
     naziv: 'Matematika; modul: nastavnički',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Prirodne znanosti',
-    kvota: 28,
     bodovanje: {
       prosjek: 30.0,
       hrvatski: { razina: 'B', postotak: 0.0 },
@@ -235,7 +222,6 @@ const popis = [
     naziv: 'Informatika',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Prirodne znanosti',
-    kvota: 19,
     bodovanje: {
       prosjek: 30.0,
       hrvatski: { razina: 'A', postotak: 10.0 },
@@ -252,7 +238,6 @@ const popis = [
     naziv: 'Matematika',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Prirodne znanosti',
-    kvota: 34,
     bodovanje: {
       prosjek: 40.0,
       hrvatski: { razina: 'A', postotak: 10.0 },
@@ -267,7 +252,6 @@ const popis = [
     naziv: 'Fizika',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Prirodne znanosti',
-    kvota: 26,
     bodovanje: {
       prosjek: 30.0,
       hrvatski: { razina: 'B', postotak: 10.0 },
@@ -284,7 +268,6 @@ const popis = [
     naziv: 'Ekonomija',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Društvene znanosti',
-    kvota: 24,
     bodovanje: {
       prosjek: 30.0,
       hrvatski: { razina: 'A', postotak: 25.0 },
@@ -299,7 +282,6 @@ const popis = [
     naziv: 'Poslovna ekonomija',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Društvene znanosti',
-    kvota: 5,
     bodovanje: {
       prosjek: 30.0,
       hrvatski: { razina: 'A', postotak: 25.0 },
@@ -314,7 +296,6 @@ const popis = [
     naziv: 'Turizam',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Društvene znanosti',
-    kvota: 5,
     bodovanje: {
       prosjek: 30.0,
       hrvatski: { razina: 'A', postotak: 25.0 },
@@ -329,7 +310,6 @@ const popis = [
     naziv: 'Ekonomija',
     razina: 'Integrirani prijediplomski i diplomski',
     podrucje: 'Društvene znanosti',
-    kvota: 14,
     bodovanje: {
       prosjek: 40.0,
       hrvatski: { razina: 'B', postotak: 20.0 },
@@ -344,7 +324,6 @@ const popis = [
     naziv: 'Poslovna ekonomija',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Društvene znanosti',
-    kvota: 90,
     bodovanje: {
       prosjek: 40.0,
       hrvatski: { razina: 'B', postotak: 20.0 },
@@ -359,7 +338,6 @@ const popis = [
     naziv: 'Pravo',
     razina: 'Integrirani prijediplomski i diplomski',
     podrucje: 'Društvene znanosti',
-    kvota: 165,
     bodovanje: {
       prosjek: 30.0,
       hrvatski: { razina: 'A', postotak: 20.0 },
@@ -376,7 +354,6 @@ const popis = [
     naziv: 'Socijalni rad',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Društvene znanosti',
-    kvota: 3,
     bodovanje: {
       prosjek: 30.0,
       hrvatski: { razina: 'A', postotak: 20.0 },
@@ -393,7 +370,6 @@ const popis = [
     naziv: 'Javna uprava',
     razina: 'Prijediplomski stručni',
     podrucje: 'Društvene znanosti',
-    kvota: 59,
     bodovanje: {
       prosjek: 45.0,
       hrvatski: { razina: 'A', postotak: 25.0 },
@@ -408,7 +384,6 @@ const popis = [
     naziv: 'Informacijski i poslovni sustavi',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Društvene znanosti',
-    kvota: 186,
     bodovanje: {
       prosjek: 35.0,
       hrvatski: { razina: 'B', postotak: 15.0 },
@@ -425,7 +400,6 @@ const popis = [
     naziv: 'Ekonomika poduzetništva',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Društvene znanosti',
-    kvota: 43,
     bodovanje: {
       prosjek: 45.0,
       hrvatski: { razina: 'A', postotak: 25.0 },
@@ -440,7 +414,6 @@ const popis = [
     naziv: 'Informacijske tehnologije i digitalizacija poslovanja',
     razina: 'Prijediplomski stručni',
     podrucje: 'Društvene znanosti',
-    kvota: 9,
     bodovanje: {
       prosjek: 40.0,
       hrvatski: { razina: 'B', postotak: 20.0 },
@@ -457,7 +430,6 @@ const popis = [
     naziv: 'Elektrotehnika i informacijska tehnologija; smjer: Elektrotehnika',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Tehničke znanosti',
-    kvota: null,
     bodovanje: {
       prosjek: 40.0,
       hrvatski: { razina: 'B', postotak: 0.0 },
@@ -475,7 +447,6 @@ const popis = [
     naziv: 'Elektrotehnika i informacijska tehnologija; smjer: IKT',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Tehničke znanosti',
-    kvota: 25,
     bodovanje: {
       prosjek: 40.0,
       hrvatski: { razina: 'B', postotak: 0.0 },
@@ -493,7 +464,6 @@ const popis = [
     naziv: 'Računarstvo',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Tehničke znanosti',
-    kvota: 44,
     bodovanje: {
       prosjek: 40.0,
       hrvatski: { razina: 'B', postotak: 0.0 },
@@ -511,7 +481,6 @@ const popis = [
     naziv: 'Računarstvo',
     razina: 'Prijediplomski stručni',
     podrucje: 'Tehničke znanosti',
-    kvota: 3,
     bodovanje: {
       prosjek: 40.0,
       hrvatski: { razina: 'B', postotak: 0.0 },
@@ -529,7 +498,6 @@ const popis = [
     naziv: 'Elektrotehnika; smjer: Automatika',
     razina: 'Prijediplomski stručni',
     podrucje: 'Tehničke znanosti',
-    kvota: 1,
     bodovanje: {
       prosjek: 40.0,
       hrvatski: { razina: 'B', postotak: 0.0 },
@@ -547,7 +515,6 @@ const popis = [
     naziv: 'Računarstvo',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Tehničke znanosti',
-    kvota: 40,
     bodovanje: {
       prosjek: 30.0,
       hrvatski: { razina: 'B', postotak: 7.5 },
@@ -564,7 +531,6 @@ const popis = [
     naziv: 'Elektrotehnika',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Tehničke znanosti',
-    kvota: 34,
     bodovanje: {
       prosjek: 30.0,
       hrvatski: { razina: 'B', postotak: 7.5 },
@@ -581,7 +547,6 @@ const popis = [
     naziv: 'Strojarstvo',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Tehničke znanosti',
-    kvota: 38,
     bodovanje: {
       prosjek: 30.0,
       hrvatski: { razina: 'B', postotak: 7.5 },
@@ -598,7 +563,6 @@ const popis = [
     naziv: 'Mehatronika i robotika',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Tehničke znanosti',
-    kvota: 14,
     bodovanje: {
       prosjek: 30.0,
       hrvatski: { razina: 'B', postotak: 7.5 },
@@ -615,7 +579,6 @@ const popis = [
     naziv: 'Brodogradnja',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Tehničke znanosti',
-    kvota: 14,
     bodovanje: {
       prosjek: 30.0,
       hrvatski: { razina: 'B', postotak: 7.5 },
@@ -632,7 +595,6 @@ const popis = [
     naziv: 'Informatika',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Društvene znanosti',
-    kvota: 30,
     bodovanje: {
       prosjek: 30.0,
       hrvatski: { razina: 'B', postotak: 20.0 },
@@ -649,7 +611,6 @@ const popis = [
     naziv: 'Primijenjeno / poslovno računarstvo',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Tehničke znanosti',
-    kvota: 20,
     bodovanje: {
       prosjek: 30.0,
       hrvatski: { razina: 'B', postotak: 10.0 },
@@ -664,7 +625,6 @@ const popis = [
     naziv: 'Elektrotehničke i komunikacijske tehnologije u pomorstvu',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Tehničke znanosti',
-    kvota: 14,
     bodovanje: {
       prosjek: 30.0,
       hrvatski: { razina: 'B', postotak: 10.0 },
@@ -679,7 +639,6 @@ const popis = [
     naziv: 'Informacijske znanosti',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Društvene znanosti',
-    kvota: 19,
     bodovanje: {
       prosjek: 30.0,
       hrvatski: { razina: 'A', postotak: 25.0 },
@@ -694,7 +653,6 @@ const popis = [
     naziv: 'Proizvodno strojarstvo',
     razina: 'Prijediplomski stručni',
     podrucje: 'Tehničke znanosti',
-    kvota: 29,
     bodovanje: {
       prosjek: 40.0,
       hrvatski: { razina: 'B', postotak: 5.0 },
@@ -711,7 +669,6 @@ const popis = [
     naziv: 'Strojarstvo',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Tehničke znanosti',
-    kvota: 4,
     bodovanje: {
       prosjek: 42.0,
       hrvatski: { razina: 'B', postotak: 0.0 },
@@ -728,7 +685,6 @@ const popis = [
     naziv: 'Mehatronika i robotika',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Tehničke znanosti',
-    kvota: null,
     bodovanje: {
       prosjek: 42.0,
       hrvatski: { razina: 'B', postotak: 0.0 },
@@ -745,7 +701,6 @@ const popis = [
     naziv: 'Zrakoplovno inženjerstvo i svemirska tehnika',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Tehničke znanosti',
-    kvota: 1,
     bodovanje: {
       prosjek: 42.0,
       hrvatski: { razina: 'B', postotak: 0.0 },
@@ -762,7 +717,6 @@ const popis = [
     naziv: 'Brodogradnja',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Tehničke znanosti',
-    kvota: 1,
     bodovanje: {
       prosjek: 42.0,
       hrvatski: { razina: 'B', postotak: 0.0 },
@@ -779,7 +733,6 @@ const popis = [
     naziv: 'Informatika',
     razina: 'Prijediplomski sveučilišni',
     podrucje: 'Društvene znanosti',
-    kvota: 57,
     bodovanje: {
       prosjek: 30.0,
       hrvatski: { razina: 'B', postotak: 15.0 },
@@ -796,7 +749,6 @@ const popis = [
     naziv: 'Računarstvo',
     razina: 'Prijediplomski stručni',
     podrucje: 'Tehničke znanosti',
-    kvota: null,
     bodovanje: {
       prosjek: 40.0,
       hrvatski: { razina: 'B', postotak: 0.0 },
@@ -813,7 +765,6 @@ const popis = [
     naziv: 'Elektrotehnika',
     razina: 'Prijediplomski stručni',
     podrucje: 'Tehničke znanosti',
-    kvota: 2,
     bodovanje: {
       prosjek: 40.0,
       hrvatski: { razina: 'B', postotak: 0.0 },
@@ -830,7 +781,6 @@ const popis = [
     naziv: 'Informatika; smjer: Elektroničko poslovanje',
     razina: 'Prijediplomski stručni',
     podrucje: 'Tehničke znanosti',
-    kvota: null,
     bodovanje: {
       prosjek: 40.0,
       hrvatski: { razina: 'B', postotak: 0.0 },
@@ -847,7 +797,6 @@ const popis = [
     naziv: 'Mehatronika',
     razina: 'Prijediplomski stručni',
     podrucje: 'Tehničke znanosti',
-    kvota: null,
     bodovanje: {
       prosjek: 40.0,
       hrvatski: { razina: 'B', postotak: 0.0 },
@@ -864,7 +813,6 @@ const popis = [
     naziv: 'Strojarstvo',
     razina: 'Prijediplomski stručni',
     podrucje: 'Tehničke znanosti',
-    kvota: 1,
     bodovanje: {
       prosjek: 40.0,
       hrvatski: { razina: 'B', postotak: 0.0 },

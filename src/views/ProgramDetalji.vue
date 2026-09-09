@@ -3,7 +3,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { collection, query, where, getDocs, doc, setDoc, deleteDoc } from 'firebase/firestore'
 import { db } from '../firebase/config.js'
-import { GraduationCap, BookOpen, Users, Calculator } from 'lucide-vue-next'
+import { GraduationCap, BookOpen, Calculator } from 'lucide-vue-next'
 import { programi } from '../data/programi.js'
 import { useAuthStore } from '../stores/authStore.js'
 import FavoritGumb from '../components/FavoritGumb.vue'
@@ -167,8 +167,7 @@ const polje = 'block border border-stone-300 rounded-lg p-2 mt-1'
 
       <div class="inline-flex flex-wrap gap-5 mt-5 text-sm text-gray-600 bg-white border border-stone-300 rounded-lg px-4 py-2.5">
         <span class="flex items-center gap-2 border-r border-stone-300 pr-5"><GraduationCap class="size-4" />{{ program.razina }}</span>
-        <span class="flex items-center gap-2 border-r border-stone-300 pr-5"><BookOpen class="size-4" />{{ program.podrucje }}</span>
-        <span class="flex items-center gap-2"><Users class="size-4" />Upisna kvota: {{ program.kvota }}</span>
+        <span class="flex items-center gap-2"><BookOpen class="size-4" />{{ program.podrucje }}</span>
       </div>
 
       <h2 class="text-xl font-extrabold text-blue-950 mt-10">Upisni podaci</h2>
