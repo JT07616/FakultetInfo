@@ -6,7 +6,7 @@ const authStore = useAuthStore()
 const router = useRouter()
 
 const veza = 'text-base font-extrabold text-white hover:text-yellow-150'
-const aktivna = 'text-orange-200'
+const aktivna = 'text-yellow-300'
 
 async function odjaviSe() {
   await authStore.odjava()
@@ -18,7 +18,7 @@ async function odjaviSe() {
   <div class="bg-[#faf9f5] flex flex-col min-h-screen">
     <nav class="bg-blue-950 select-none">
       <div class="max-w-6xl mx-auto px-6 py-3 flex items-center gap-6 text-sm text-white">
-        <RouterLink to="/" class="text-lg font-bold">Fakultet<span class="text-yellow-300">Info</span></RouterLink>
+        <RouterLink to="/" class="text-lg font-extrabold">Fakultet<span class="text-yellow-300">Info</span></RouterLink>
         <!-- admin i predstavnik fakulteta u izborniku imaju samo svoje, ostali javne stranice -->
         <template v-if="!authStore.isAdmin && !authStore.isFakultet">
           <RouterLink to="/fakulteti" :class="veza" :active-class="aktivna">Fakulteti</RouterLink>
@@ -43,10 +43,11 @@ async function odjaviSe() {
       </div>
     </nav>
 
-    <main class="flex-1">
+    <!-- pb-12 da fiksni footer ne prekrije dno sadrzaja -->
+    <main class="flex-1 pb-12">
       <RouterView />
     </main>
 
-    <footer class="bg-blue-950 px-6 py-2 text-sm text-white text-center">FakultetInfo, 2026.</footer>
+    <footer class="fixed bottom-0 w-full bg-blue-950 px-6 py-2 text-sm text-white text-center">FakultetInfo, 2026.</footer>
   </div>
 </template>
