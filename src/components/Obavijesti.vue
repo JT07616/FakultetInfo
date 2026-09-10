@@ -2,12 +2,12 @@
 import { ref, computed, onMounted } from 'vue'
 import { collection, query, where, getDocs, addDoc, updateDoc, deleteDoc, doc } from 'firebase/firestore'
 import { db } from '../firebase/config.js'
-import { CalendarDays } from 'lucide-vue-next'
 import { useAuthStore } from '../stores/authStore.js'
 import ConfirmModal from './ConfirmModal.vue'
+import ObavijestKartica from './ObavijestKartica.vue'
 
 
-const props = defineProps(['fakultetId', 'oznaka', 'sakrijPrazno'])
+const props = defineProps(['fakultetId'])
 const authStore = useAuthStore()
 
 const obavijesti = ref([])
@@ -86,17 +86,11 @@ async function obrisi(obavijest) {
   }
 }
 
-function danMjesec(datum) {
-  return datum.getDate() + '.' + (datum.getMonth() + 1) + '.'
-}
-
 onMounted(ucitajObavijesti)
 </script>
 
 <template>
-  <div v-if="!sakrijPrazno || obavijesti.length">
-    <p v-if="oznaka" class="text-sm font-semibold text-gray-500 mb-2">{{ oznaka }}</p>
-
+  <div>
     <p v-if="greska" class="text-sm text-red-700 mb-3">{{ greska }}</p>
 
     <!-- predstavnik fakulteta -->
@@ -113,26 +107,12 @@ onMounted(ucitajObavijesti)
     <p v-if="!obavijesti.length" class="text-sm text-gray-500">Još nema obavijesti za ovaj fakultet.</p>
 
     <div v-else class="flex flex-col gap-3">
-      <div v-for="obavijest in obavijesti" :key="obavijest.id" class="bg-white border border-stone-300 rounded-xl px-5 py-4 flex gap-5">
-        <!-- kalendar i datum -->
-        <div class="w-24 shrink-0 flex items-center gap-2">
-          <CalendarDays class="size-8 text-gray-400" />
-          <div>
-            <p class="text-lg font-semibold text-blue-950 leading-tight">{{ danMjesec(obavijest.datum) }}</p>
-            <p class="text-xs text-gray-500 leading-tight">{{ obavijest.datum.getFullYear() }}.</p>
-          </div>
+      <ObavijestKartica v-for="obavijest in obavijesti" :key="obavijest.id" :obavijest="obavijest">
+        <div v-if="smijeBrisati" class="border-t border-stone-100 mt-3 pt-2 flex gap-4">
+          <button v-if="smijeUredjivati" @click="popuniFormu(obavijest)" class="text-sm font-semibold text-blue-900">Uredi</button>
+          <button @click="obavijestZaBrisanje = obavijest" class="text-sm font-semibold text-red-700">Obriši</button>
         </div>
-
-        <div class="flex-1">
-          <p class="font-semibold text-blue-950">{{ obavijest.naslov }}</p>
-          <p class="text-sm text-gray-600 mt-1">{{ obavijest.tekst }}</p>
-
-          <div v-if="smijeBrisati" class="border-t border-stone-100 mt-3 pt-2 flex gap-4">
-            <button v-if="smijeUredjivati" @click="popuniFormu(obavijest)" class="text-sm font-semibold text-blue-900">Uredi</button>
-            <button @click="obavijestZaBrisanje = obavijest" class="text-sm font-semibold text-red-700">Obriši</button>
-          </div>
-        </div>
-      </div>
+      </ObavijestKartica>
     </div>
 
     <ConfirmModal

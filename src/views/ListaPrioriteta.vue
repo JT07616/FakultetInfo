@@ -7,7 +7,7 @@ import { programi } from '../data/programi.js'
 import { fakulteti } from '../data/katalog.js'
 import { useAuthStore } from '../stores/authStore.js'
 import ProgramKartica from '../components/ProgramKartica.vue'
-import Obavijesti from '../components/Obavijesti.vue'
+import ObavijestKartica from '../components/ObavijestKartica.vue'
 
 const authStore = useAuthStore()
 
@@ -55,6 +55,38 @@ function rokoviPrograma(programId) {
   return rokovi.value.filter((upis) => upis.programId === programId)
 }
 
+const obavijesti = ref([])
+
+async function ucitajObavijesti() {
+  if (!fakultetiFavorita.value.length) return // 'in' s praznom listom baca gresku
+  greska.value = ''
+  try {
+    const idFakulteta = fakultetiFavorita.value.map((fakultet) => fakultet.id)
+    const upit = query(collection(db, 'obavijesti'), where('fakultetId', 'in', idFakulteta))
+    const snapshot = await getDocs(upit)
+    const rezultat = []
+    for (const dokument of snapshot.docs) {
+      rezultat.push({
+        id: dokument.id,
+        fakultetId: dokument.data().fakultetId,
+        naslov: dokument.data().naslov,
+        tekst: dokument.data().tekst,
+        datum: dokument.data().datum.toDate(),
+      })
+    }
+    rezultat.sort((a, b) => b.datum - a.datum)
+    obavijesti.value = rezultat
+  } catch (e) {
+    console.error(e)
+    greska.value = 'Učitavanje obavijesti nije uspjelo.'
+  }
+}
+
+function kraticaFakulteta(fakultetId) {
+  const fakultet = fakulteti.find((f) => f.id === fakultetId)
+  return fakultet ? fakultet.kratica : ''
+}
+
 // zeleni rub dok prijave jos traju, crveni kad "prijave do" prodje
 function bojaRoka(upis) {
   if (!upis.prijaveDo) return 'border-stone-200'
@@ -81,7 +113,10 @@ async function pomakni(index, pomak) {
   }
 }
 
-onMounted(ucitajRokove)
+onMounted(() => {
+  ucitajRokove()
+  ucitajObavijesti()
+})
 
 const strelica = 'bg-white border border-stone-300 rounded-lg p-1 enabled:hover:border-blue-300 disabled:opacity-30'
 </script>
@@ -114,11 +149,14 @@ const strelica = 'bg-white border border-stone-300 rounded-lg p-1 enabled:hover:
       </div>
 
       <div>
-        <!-- obavijesti od favorita -->
         <h2 class="text-xl font-extrabold text-blue-950">Obavijesti</h2>
         <p class="text-sm text-gray-500 mt-1 mb-4">Novosti fakulteta s tvoje liste.</p>
         <p v-if="!fakultetiFavorita.length" class="text-sm text-gray-500">Dodaj programe u favorite pa će se ovdje pojaviti obavijesti njihovih fakulteta.</p>
-        <Obavijesti v-for="fakultet in fakultetiFavorita" :key="fakultet.id" :fakultet-id="fakultet.id" :oznaka="fakultet.kratica + ' - ' + fakultet.naziv" :sakrij-prazno="true" class="mb-6" />
+        <p v-else-if="!obavijesti.length" class="text-sm text-gray-500">Tvoji fakulteti još nemaju obavijesti.</p>
+
+        <div v-else class="flex flex-col gap-3">
+          <ObavijestKartica v-for="obavijest in obavijesti" :key="obavijest.id" :obavijest="obavijest" :kratica="kraticaFakulteta(obavijest.fakultetId)" />
+        </div>
       </div>
     </div>
   </div>
