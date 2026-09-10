@@ -26,7 +26,6 @@ async function loadPitanja() {
   greska.value = ''
   try {
     const snapshot = await getDocs(query(collection(db, 'pitanja'), where('fakultetId', '==', props.fakultetId)))
-
     const rezultat = []
     for (const dokument of snapshot.docs) {
       rezultat.push({
@@ -152,7 +151,7 @@ onMounted(loadPitanja)
   <div>
     <p v-if="greska" class="text-sm text-red-700 mb-3">{{ greska }}</p>
 
-    <!-- novo pitanje moze postaviti svaki prijavljeni korisnik -->
+    <!-- pitanje -->
     <form v-if="authStore.user" @submit.prevent="posaljiPitanje" class="bg-white border border-stone-300 rounded-xl p-4 mb-4 flex flex-col gap-2">
       <p class="font-semibold text-blue-950">Postavi pitanje</p>
       <textarea v-model="novoPitanje" rows="2" placeholder="Što te zanima o ovom fakultetu?" required class="bg-white border border-stone-300 rounded-lg p-2.5 text-sm"></textarea>
@@ -175,7 +174,7 @@ onMounted(loadPitanja)
         </div>
         <p class="text-gray-700 mt-3">{{ pitanje.tekst }}</p>
 
-        <!-- odgovori na pitanje -->
+        <!-- odgovori  -->
         <div v-for="odgovor in pitanje.odgovori" :key="odgovor.id" class="bg-stone-50 border border-stone-200 rounded-lg p-3 mt-3 ml-6">
           <div class="flex items-center gap-2">
             <div class="size-7 shrink-0 flex items-center justify-center font-bold text-xs rounded-full" :class="odgovor.sluzbeni ? 'bg-blue-950 text-yellow-300' : 'bg-blue-100 text-blue-900'">{{ inicijal(odgovor.sluzbeni ? nazivFakulteta : odgovor.username) }}</div>

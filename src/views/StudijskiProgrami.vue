@@ -50,11 +50,11 @@ const filtrirani = computed(() => {
 <template>
   <div class="max-w-6xl mx-auto px-6 py-10">
     <h1 class="text-3xl font-extrabold text-blue-950">Studijski programi</h1>
-    <p class="text-gray-500 mt-2">Programi i uvjeti upisa iz nacionalnog sustava prijava.</p>
+    <p class="text-gray-500 mt-2">Studijski programi i uvjeti upisa iz nacionalnog sustava prijava.</p>
 
     <!-- pretraga i filtri -->
     <div class="flex flex-col sm:flex-row gap-3 mt-6 mb-4">
-      <input v-model="trazi" type="text" placeholder="Naziv programa, fakultet ili grad" class="flex-1 bg-white border border-stone-300 rounded-lg p-2.5 text-sm" />
+      <input v-model="trazi" type="text" placeholder="Naziv studijskog programa, fakultet ili grad" class="flex-1 bg-white border border-stone-300 rounded-lg p-2.5 text-sm" />
       <select v-model="podrucje" class="bg-white border border-stone-300 rounded-lg p-2.5 text-sm text-gray-500">
         <option value="">Sva područja</option>
         <option v-for="p in podrucja" :key="p" :value="p">{{ p }}</option>
@@ -65,7 +65,7 @@ const filtrirani = computed(() => {
       </select>
     </div>
 
-    <p v-if="filtrirani.length === 0" class="text-sm text-gray-500">Nema programa koji odgovaraju pretrazi.</p>
+    <p v-if="filtrirani.length === 0" class="text-sm text-gray-500">Nema studijskih programa koji odgovaraju pretrazi.</p>
 
     <div v-else class="grid sm:grid-cols-2 gap-3">
       <ProgramKartica v-for="program in filtrirani" :key="program.id" :program="program" />

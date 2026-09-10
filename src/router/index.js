@@ -18,7 +18,7 @@ const router = createRouter({
     { path: '/', name: 'home', component: Home },
     { path: '/login', name: 'login', component: Login, meta: { samoGost: true } },
     { path: '/register', name: 'register', component: Register, meta: { samoGost: true } },
-    { path: '/admin', name: 'admin', component: Admin , meta: { requiresAdmin: true}},
+    { path: '/admin', name: 'admin', component: Admin, meta: { requiresAuth: true, requiresAdmin: true } },
     { path: '/fakulteti', name: 'fakulteti', component: Fakulteti },
     { path: '/studijski-programi', name: 'studijski-programi', component: StudijskiProgrami },
     { path: '/lista-prioriteta', name: 'lista-prioriteta', component: ListaPrioriteta, meta: { requiresAuth: true } },

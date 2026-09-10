@@ -151,7 +151,7 @@ const strelica = 'bg-white border border-stone-300 rounded-lg p-1 enabled:hover:
       <div>
         <h2 class="text-xl font-extrabold text-blue-950">Obavijesti</h2>
         <p class="text-sm text-gray-500 mt-1 mb-4">Novosti fakulteta s tvoje liste.</p>
-        <p v-if="!fakultetiFavorita.length" class="text-sm text-gray-500">Dodaj programe u favorite pa će se ovdje pojaviti obavijesti njihovih fakulteta.</p>
+        <p v-if="!fakultetiFavorita.length" class="text-sm text-gray-500">Dodaj studijske programe u favorite pa će se ovdje pojaviti obavijesti njihovih fakulteta.</p>
         <p v-else-if="!obavijesti.length" class="text-sm text-gray-500">Tvoji fakulteti još nemaju obavijesti.</p>
 
         <div v-else class="flex flex-col gap-3">

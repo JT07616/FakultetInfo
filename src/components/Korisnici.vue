@@ -25,10 +25,16 @@ async function ucitajKorisnike() {
         odabrani: '',
       })
     }
+    // predstavnici na vrh liste, oni admina najvise zanimaju
+    rezultat.sort((a, b) => {
+      if (a.role === 'fakultet' && b.role !== 'fakultet') return -1
+      if (b.role === 'fakultet' && a.role !== 'fakultet') return 1
+      return 0
+    })
     korisnici.value = rezultat
   } catch (e) {
     console.error(e)
-    greska.value = 'Greška prilikom učitavnja korisnika.'
+    greska.value = 'Greška prilikom učitavanja korisnika.'
   }
 }
 
@@ -66,12 +72,15 @@ onMounted(ucitajKorisnike)
 
 <template>
   <div>
-    <input v-model="pretraga" type="text" placeholder="Pretraži po e-mail adresi" class="w-full bg-white border border-stone-300 rounded-lg p-2.5 text-sm mb-4" />
-
     <p v-if="greska" class="text-sm text-red-700 mb-3">{{ greska }}</p>
 
-    <div class="flex flex-col gap-3">
-      <div v-for="korisnik in filtrirani" :key="korisnik.uid" class="bg-white border border-stone-300 rounded-xl px-5 py-4 flex flex-wrap items-center gap-3">
+    <!-- pretraga i korisnici u istom prozoru -->
+    <div class="bg-white border border-stone-300 rounded-xl divide-y divide-stone-100">
+      <input v-model="pretraga" type="text" placeholder="🔍 Pretraži po e-mail adresi" class="w-full rounded-t-xl bg-stone-50 p-3 text-sm" />
+
+      <!-- cijela lista, skrola se unutar kartice a pretraga ostaje gore -->
+      <div class="max-h-80 overflow-y-auto divide-y divide-stone-100">
+      <div v-for="korisnik in filtrirani" :key="korisnik.uid" class="px-5 py-3 flex flex-wrap items-center gap-3">
         <div class="mr-auto">
           <p class="font-semibold text-blue-950">{{ korisnik.username }}</p>
           <p class="text-sm text-gray-500">{{ korisnik.email }}</p>
@@ -91,6 +100,7 @@ onMounted(ucitajKorisnike)
           </select>
           <button @click="korisnikZaDodjelu = korisnik" :disabled="!korisnik.odabrani" class="bg-blue-900 text-white text-sm font-semibold rounded-lg px-4 py-2 hover:bg-blue-950 disabled:opacity-50">+ Daj ulogu</button>
         </template>
+      </div>
       </div>
     </div>
 

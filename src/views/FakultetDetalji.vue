@@ -56,7 +56,7 @@ const opis = 'text-sm text-gray-500 mt-1 mb-4'
 
       <!-- studijski programi fakulteta -->
       <h2 :class="naslov">Studijski programi</h2>
-      <p :class="opis">Programi koje fakultet nudi u nacionalnom sustavu prijava.</p>
+      <p :class="opis">Studijski programi koje fakultet nudi u nacionalnom sustavu prijava.</p>
 
       <div class="grid sm:grid-cols-2 gap-3">
         <ProgramKartica v-for="program in programiFakulteta" :key="program.id" :program="program" />

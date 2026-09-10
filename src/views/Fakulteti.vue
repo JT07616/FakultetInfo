@@ -28,13 +28,14 @@ const prikazani = computed(() => {
 
   return rezultat
 })
+
+
 </script>
 
 <template>
   <div class="max-w-6xl mx-auto px-6 py-10">
     <h1 class="text-3xl font-extrabold text-blue-950">Fakulteti</h1>
     <p class="text-gray-500 mt-2">Visoka učilišta i njihovi studijski programi.</p>
-
     <!-- pretraga i redoslijed -->
     <div class="flex flex-col sm:flex-row gap-3 mt-6 mb-4">
       <input v-model="pretraga" type="text" placeholder="Naziv fakulteta, sveučilište ili grad" class="flex-1 bg-white border border-stone-300 rounded-lg p-2.5 text-sm" />

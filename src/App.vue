@@ -19,8 +19,8 @@ async function odjaviSe() {
     <nav class="bg-blue-950 select-none">
       <div class="max-w-6xl mx-auto px-6 py-3 flex items-center gap-6 text-sm text-white">
         <RouterLink to="/" class="text-lg font-extrabold">Fakultet<span class="text-yellow-300">Info</span></RouterLink>
-        <!-- admin i predstavnik fakulteta u izborniku imaju samo svoje, ostali javne stranice -->
-        <template v-if="!authStore.isAdmin && !authStore.isFakultet">
+        <!-- predstavnik fakulteta u izborniku ima samo svoje, admin i javne stranice zbog moderacije -->
+        <template v-if="!authStore.isFakultet">
           <RouterLink to="/fakulteti" :class="veza" :active-class="aktivna">Fakulteti</RouterLink>
 
           <RouterLink to="/studijski-programi" :class="veza" :active-class="aktivna">Studijski programi</RouterLink>
