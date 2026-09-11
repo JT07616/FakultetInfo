@@ -94,23 +94,33 @@ onMounted(ucitajObavijesti)
     <p v-if="greska" class="text-sm text-red-700 mb-3">{{ greska }}</p>
 
     <!-- predstavnik fakulteta -->
-    <form v-if="smijeUredjivati" @submit.prevent="spremiObavijest" class="bg-white border border-stone-300 rounded-xl p-4 mb-4 flex flex-col gap-2">
-      <p class="font-semibold text-blue-950">{{ urediId ? 'Uredi obavijest' : 'Nova obavijest' }}</p>
+    <form v-if="smijeUredjivati && !urediId" @submit.prevent="spremiObavijest" class="bg-white border border-stone-300 rounded-xl p-4 mb-4 flex flex-col gap-2">
+      <p class="font-semibold text-blue-950">Nova obavijest</p>
       <input v-model="naslov" type="text" placeholder="Naslov obavijesti" required class="bg-white border border-stone-300 rounded-lg p-2.5 text-sm" />
       <textarea v-model="tekst" rows="3" placeholder="Tekst obavijesti" required class="bg-white border border-stone-300 rounded-lg p-2.5 text-sm"></textarea>
-      <div class="flex gap-2">
-        <button class="bg-blue-900 text-white text-sm font-semibold rounded-lg px-4 py-2 hover:bg-blue-950">{{ urediId ? 'Spremi izmjene' : 'Objavi' }}</button>
-        <button v-if="urediId" type="button" @click="odustani" class="bg-gray-200 text-gray-700 text-sm font-semibold rounded-lg px-4 py-2 hover:bg-gray-100">Odustani</button>
-      </div>
+      <button class="self-start bg-blue-900 text-white text-sm font-semibold rounded-lg px-4 py-2 hover:bg-blue-950">Objavi</button>
     </form>
+
+    <!-- uredjivanje u modalu da se vidi sto se ureduje -->
+    <div v-if="urediId" class="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+      <form @submit.prevent="spremiObavijest" class="bg-white rounded-xl p-5 w-full max-w-md flex flex-col gap-2">
+        <p class="font-semibold text-blue-950">Uredi obavijest</p>
+        <input v-model="naslov" type="text" placeholder="Naslov obavijesti" required class="bg-white border border-stone-300 rounded-lg p-2.5 text-sm" />
+        <textarea v-model="tekst" rows="3" placeholder="Tekst obavijesti" required class="bg-white border border-stone-300 rounded-lg p-2.5 text-sm"></textarea>
+        <div class="flex gap-2">
+          <button class="bg-blue-900 text-white text-sm font-semibold rounded-lg px-4 py-2 hover:bg-blue-950">Spremi izmjene</button>
+          <button type="button" @click="odustani" class="bg-gray-200 text-gray-700 text-sm font-semibold rounded-lg px-4 py-2 hover:bg-gray-100">Odustani</button>
+        </div>
+      </form>
+    </div>
 
     <p v-if="!obavijesti.length" class="text-sm text-gray-500">Još nema obavijesti za ovaj fakultet.</p>
 
     <div v-else class="flex flex-col gap-3">
       <ObavijestKartica v-for="obavijest in obavijesti" :key="obavijest.id" :obavijest="obavijest">
         <div v-if="smijeBrisati" class="border-t border-stone-100 mt-3 pt-2 flex gap-4">
-          <button v-if="smijeUredjivati" @click="popuniFormu(obavijest)" class="text-sm font-semibold text-blue-900">Uredi</button>
-          <button @click="obavijestZaBrisanje = obavijest" class="text-sm font-semibold text-red-700">Obriši</button>
+          <button v-if="smijeUredjivati" @click="popuniFormu(obavijest)" class="text-sm font-semibold text-blue-900 hover:underline">Uredi</button>
+          <button @click="obavijestZaBrisanje = obavijest" class="text-sm font-semibold text-red-700 hover:underline">Obriši</button>
         </div>
       </ObavijestKartica>
     </div>

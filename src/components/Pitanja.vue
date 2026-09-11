@@ -181,7 +181,7 @@ onMounted(loadPitanja)
             <p class="text-sm font-semibold text-blue-950">{{ odgovor.sluzbeni ? nazivFakulteta : odgovor.username }}</p>
             <span v-if="odgovor.sluzbeni" class="bg-yellow-300 text-blue-950 text-xs font-bold rounded px-1.5 py-0.5">FAKULTET</span>
             <p class="text-xs text-gray-500 ml-auto">{{ prikaziDatum(odgovor.datum) }}</p>
-            <button v-if="authStore.user && (authStore.user.uid === odgovor.uid || jePredstavnik || authStore.isAdmin)" @click="odgovorZaBrisanje = odgovor" class="text-xs font-semibold text-red-700">Obriši</button>
+            <button v-if="authStore.user && (authStore.user.uid === odgovor.uid || jePredstavnik || authStore.isAdmin)" @click="odgovorZaBrisanje = odgovor" class="text-xs font-semibold hover:underline text-red-700">Obriši</button>
           </div>
           <p class="text-sm text-gray-700 mt-2">{{ odgovor.tekst }}</p>
         </div>
@@ -193,8 +193,8 @@ onMounted(loadPitanja)
             <button type="button" @click="odgovorNa = null" class="bg-gray-200 text-gray-700 text-sm font-semibold rounded-lg px-4 hover:bg-gray-100">Odustani</button>
           </form>
           <div v-else class="flex items-center gap-4">
-            <button @click="odgovorNa = pitanje.id; noviOdgovor = ''" class="text-sm font-semibold text-blue-900">Odgovori</button>
-            <button v-if="authStore.user.uid === pitanje.uid || jePredstavnik || authStore.isAdmin" @click="pitanjeZaBrisanje = pitanje" class="text-sm font-semibold text-red-700">Obriši</button>
+            <button @click="odgovorNa = pitanje.id; noviOdgovor = ''" class="text-sm font-semibold hover:underline text-blue-900">Odgovori</button>
+            <button v-if="authStore.user.uid === pitanje.uid || jePredstavnik || authStore.isAdmin" @click="pitanjeZaBrisanje = pitanje" class="text-sm hover:underline font-semibold text-red-700">Obriši</button>
             <p class="text-xs text-gray-400 ml-auto">{{ prikaziBrojOdgovora(pitanje) }}</p>
           </div>
         </div>

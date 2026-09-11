@@ -141,7 +141,7 @@ onMounted(() => {
               <p class="text-xs text-gray-500">{{ pitanje.username }} · {{ kraticaFakulteta(pitanje.fakultetId) }} · {{ prikaziDatum(pitanje.datum) }}</p>
               <p class="text-sm text-gray-700 mt-0.5">{{ pitanje.tekst }}</p>
             </div>
-            <button @click="pitanjeZaBrisanje = pitanje" class="text-sm font-semibold text-red-700">Obriši</button>
+            <button @click="pitanjeZaBrisanje = pitanje" class="text-sm font-semibold text-red-700 hover:underline">Obriši</button>
           </div>
         </div>
       </div>
