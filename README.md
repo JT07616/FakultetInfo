@@ -1,38 +1,83 @@
-# fakultetinfo
+<img src="src/assets/slike/fipu_hr.png" alt="Fakultet informatike u Puli" width="340">
 
-This template should help get you started developing with Vue 3 in Vite.
+# FakultetInfo
 
-## Recommended IDE Setup
+Web aplikacija koja kandidatima za upis na fakultet drži katalog studijskih programa,
+pravila bodovanja, upisne rokove i komunikaciju s fakultetima na jednom mjestu.
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- **Aplikacija:** https://fakultetinfo-3e719.web.app
+- **Figma prototip:** [Link na figma prototip](OVDJE-LINK-NA-FIGMU)
 
-## Recommended Browser Setup
+## O projektu
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+- **Autor:** Juraj Tojčić
+- **Ustanova:** [Fakultet informatike u Puli](https://fipu.unipu.hr)
+- **Kolegij:** [Programsko inženjerstvo](https://ntankovic.unipu.hr/pi)
+- **Mentor:** [doc. dr. sc. Nikola Tanković](https://ntankovic.unipu.hr)
 
-## Customize configuration
+## Funkcionalnosti
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+- Katalog 17 visokih učilišta i 52 studijska programa, s pretragom i filtrima
+- Službena pravila bodovanja i upisni rokovi za svaki studijski program
+- Kalkulator bodova prilagođen pravilima pojedinog studijskog programa, s provjerom uvjeta upisa
+- Lista prioriteta s studijskim programima poredanima onako kako ih korisnik namjerava prijaviti
+- Obavijesti svih fakulteta s liste na jednom mjestu
+- Pitanja fakultetima i službeni odgovori predstavnika
+- Portal za predstavnike fakulteta i nadzorna ploča za administratora
 
-## Project Setup
+## Uloge
 
-```sh
-npm install
+- **gost** - katalog, pravila bodovanja, kalkulator, čitanje obavijesti i pitanja
+- **korisnik** - lista prioriteta, favoriti, postavljanje pitanja i odgovaranje
+- **predstavnik fakulteta** - obavijesti, upisni rokovi i službeni odgovori svojeg fakulteta
+- **administrator** - dodjela uloga predstavnicima i moderiranje sadržaja
+
+## Tehnologije
+
+- **Vue 3** - Composition API
+- **Vue Router** - rute i zaštita pristupa
+- **Pinia** - stanje prijavljenog korisnika
+- **Tailwind CSS** - izgled sučelja
+- **Lucide** - ikone
+- **Firebase** - Authentication i Cloud Firestore
+- **Vite** - razvojni poslužitelj i build
+
+## Struktura baze
+
+```
+users/{uid}                 username, email, role, favoriti, fakultetId
+upisi/{programId_rok}       programId, fakultetId, godina, rok, kvota, prijaveDo, upisiDo
+obavijesti/{id}             fakultetId, naslov, tekst, datum
+pitanja/{id}                fakultetId, tekst, username, uid, datum
+odgovori/{id}               pitanjeId, pitanjeUid, fakultetId, tekst, username, uid, sluzbeni, datum
 ```
 
-### Compile and Hot-Reload for Development
+Fakulteti i studijski programi nisu u bazi nego u kodu, u mapi `src/data`.
 
-```sh
-npm run dev
+## Struktura projekta
+
+```
+firestore.rules       sigurnosna pravila baze
+UML_dijagrami/        dijagrami iz dokumentacije
+src/
+  assets/             stilovi i logotipi fakulteta
+  components/         dijeljene komponente
+  data/               katalog fakulteta i studijskih programa
+  firebase/           inicijalizacija Firebasea
+  router/             rute i zaštita pristupa
+  stores/             stanje prijavljenog korisnika
+  utils/              izračun bodova i poruke o pogreškama
+  views/              stranice povezane s rutama
 ```
 
-### Compile and Minify for Production
+## UML dijagrami
 
-```sh
-npm run build
-```
+Dijagrami iz projektne dokumentacije nalaze se u mapi [`UML_dijagrami/`](UML_dijagrami).
+
+## Testni računi
+
+| Uloga | E-mail | Lozinka |
+|---|---|---|
+| Korisnik | korisnik_prvi@fakultetinfo.com | Korisnik_prvi123 |
+| Predstavnik fakulteta | fipu@fipu.hr | Fipu123 |
+| Administrator | korisnik123@fakultetinfo.com | korisnik123 |
