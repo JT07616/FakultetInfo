@@ -6,7 +6,7 @@ Web aplikacija koja kandidatima za upis na fakultet drži katalog studijskih pro
 pravila bodovanja, upisne rokove i komunikaciju s fakultetima na jednom mjestu.
 
 - **Aplikacija:** https://fakultetinfo-3e719.web.app
-- **Figma prototip:** [Link na figma prototip](OVDJE-LINK-NA-FIGMU)
+- **Figma prototip:** [Link na figma prototip](https://www.figma.com/proto/shDoJZ6uYTj9iEQVVs7GdD/FakultetInfo-prototip?node-id=20-3&t=G7VG5aAh48Jvraf7-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1)
 
 ## O projektu
 
