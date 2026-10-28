@@ -65,10 +65,14 @@ async function loadPitanja() {
 
 async function posaljiPitanje() {
   greska.value = ''
+  if (novoPitanje.value.trim() === ''){
+    greska.value = 'Pitanje ne smije biti prazno.'
+    return
+  }
   try {
     await addDoc(collection(db, 'pitanja'), {
       fakultetId: props.fakultetId,
-      tekst: novoPitanje.value,
+      tekst: novoPitanje.value.trim(),
       username: authStore.profil.username,
       uid: authStore.user.uid,
       datum: new Date(),
@@ -83,12 +87,16 @@ async function posaljiPitanje() {
 
 async function posaljiOdgovor(pitanje) {
   greska.value = ''
+  if (noviOdgovor.value.trim() === ''){
+    greska.value = 'Odgovor ne smije biti prazan.'
+    return
+  }
   try {
     await addDoc(collection(db, 'odgovori'), {
       pitanjeId: pitanje.id,
       pitanjeUid: pitanje.uid,
       fakultetId: props.fakultetId,
-      tekst: noviOdgovor.value,
+      tekst: noviOdgovor.value.trim(),
       username: authStore.profil.username,
       uid: authStore.user.uid,
       sluzbeni: jePredstavnik.value,

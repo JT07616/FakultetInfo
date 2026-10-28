@@ -46,18 +46,23 @@ function odustani() {
   urediId.value = null
   naslov.value = ''
   tekst.value = ''
+  greska.value = ''
 }
 
 async function spremiObavijest() {
   greska.value = ''
+  if (naslov.value.trim() === '' || tekst.value.trim() === '') {
+    greska.value = 'Naslov i tekst ne smiju biti prazni.'
+    return
+  }
   try {
     if (urediId.value) {
-      await updateDoc(doc(db, 'obavijesti', urediId.value), { naslov: naslov.value, tekst: tekst.value })
+      await updateDoc(doc(db, 'obavijesti', urediId.value), { naslov: naslov.value.trim(), tekst: tekst.value.trim() })
     } else {
       await addDoc(collection(db, 'obavijesti'), {
         fakultetId: props.fakultetId,
-        naslov: naslov.value,
-        tekst: tekst.value,
+        naslov: naslov.value.trim(),
+        tekst: tekst.value.trim(),
         datum: new Date(),
       })
     }
