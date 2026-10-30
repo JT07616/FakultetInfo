@@ -15,6 +15,7 @@ service cloud.firestore {
     }
 
     // svatko svoj profil, admin dodjeljuje uloge ali samo tudjima (inace bi si svatko dao admina)
+    // korisnik sam mijenja samo favorite (najvise 10), inace bi predstavnik mogao sebi upisati tudji fakultetId
     match /users/{uid} {
       allow read: if request.auth != null && (request.auth.uid == uid || jeAdmin());
       allow create: if request.auth != null
@@ -23,7 +24,8 @@ service cloud.firestore {
       allow update: if (jeAdmin() && request.auth.uid != uid)
         || (request.auth != null
           && request.auth.uid == uid
-          && request.resource.data.role == resource.data.role);
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['favoriti'])
+          && request.resource.data.favoriti.size() <= 10);
       allow delete: if false;
     }
 

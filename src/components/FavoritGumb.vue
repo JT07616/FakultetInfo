@@ -16,6 +16,11 @@ async function klik() {
     router.push('/login')
     return
   }
+  // micanje mora raditi i kad je lista puna
+  if (!jeFavorit.value && authStore.profil.favoriti.length >= 10) {
+    alert('Lista prioriteta može imati najviše 10 studijskih programa.')
+    return
+  }
   try {
     await authStore.toggleFavorit(props.programId)
   } catch (e) {

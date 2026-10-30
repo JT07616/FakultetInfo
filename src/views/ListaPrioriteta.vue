@@ -37,10 +37,10 @@ const rokovi = ref([])
 const greska = ref('')
 
 async function ucitajRokove() {
-  if (!authStore.profil.favoriti.length) return // 'in' s praznom listom baca gresku
+  if (!authStore.profil.favoriti.length) return
   greska.value = ''
   try {
-    const upit = query(collection(db, 'upisi'), where('programId', 'in', authStore.profil.favoriti)) // jedan upit za sve, in podrzava do 10 - toliko i postanistudent dopusta prijava
+    const upit = query(collection(db, 'upisi'), where('programId', 'in', authStore.profil.favoriti))
     const snapshot = await getDocs(upit)
     const rezultat = snapshot.docs.map((dokument) => dokument.data())
     rezultat.sort((a, b) => (a.prijaveDo > b.prijaveDo ? 1 : -1)) // najblizi rok prvi

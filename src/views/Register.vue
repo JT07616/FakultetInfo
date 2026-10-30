@@ -20,7 +20,7 @@ function provjeriUnos() {
    return 'Sva polja su obavezna!'
    
   }
-  if (korisnickoIme.value.length < 3 || korisnickoIme.value.length > 20) {
+  if (korisnickoIme.value.trim().length < 3 || korisnickoIme.value.trim().length > 20) {
     return 'Korisničko ime mora imati između 3 i 20 znakova.'
   }
   if (lozinka.value.length < 6) {
@@ -45,7 +45,7 @@ async function registracija(){
   }
   salje.value = true
   try {
-    await authStore.registracija(email.value, lozinka.value, korisnickoIme.value)
+    await authStore.registracija(email.value, lozinka.value, korisnickoIme.value.trim())
 
     uspjeh.value = 'Registracija uspješna. Preusmjeravam...'
 
