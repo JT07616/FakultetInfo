@@ -21,6 +21,7 @@ const pitanjeZaBrisanje = ref(null)
 const odgovorZaBrisanje = ref(null)
 const jePredstavnik = computed(() => authStore.isFakultet && authStore.profil.fakultetId === props.fakultetId)
 const greska = ref('')
+const salje = ref(false)
 
 async function loadPitanja() {
   greska.value = ''
@@ -69,6 +70,7 @@ async function posaljiPitanje() {
     greska.value = 'Pitanje ne smije biti prazno.'
     return
   }
+  salje.value = true
   try {
     await addDoc(collection(db, 'pitanja'), {
       fakultetId: props.fakultetId,
@@ -83,6 +85,7 @@ async function posaljiPitanje() {
     console.error(e)
     greska.value = 'Slanje pitanja nije uspjelo.'
   }
+  salje.value = false
 }
 
 async function posaljiOdgovor(pitanje) {
@@ -91,6 +94,7 @@ async function posaljiOdgovor(pitanje) {
     greska.value = 'Odgovor ne smije biti prazan.'
     return
   }
+  salje.value = true
   try {
     await addDoc(collection(db, 'odgovori'), {
       pitanjeId: pitanje.id,
@@ -109,6 +113,7 @@ async function posaljiOdgovor(pitanje) {
     console.error(e)
     greska.value = 'Slanje odgovora nije uspjelo.'
   }
+  salje.value = false
 }
 
 async function obrisiPitanje(pitanje) {
@@ -163,7 +168,7 @@ onMounted(loadPitanja)
     <form v-if="authStore.user" @submit.prevent="posaljiPitanje" class="bg-white border border-stone-300 rounded-xl p-4 mb-4 flex flex-col gap-2">
       <p class="font-semibold text-blue-950">Postavi pitanje</p>
       <textarea v-model="novoPitanje" rows="2" placeholder="Što te zanima o ovom fakultetu?" required class="bg-white border border-stone-300 rounded-lg p-2.5 text-sm"></textarea>
-      <button class="self-start bg-blue-900 text-white text-sm font-semibold rounded-lg px-4 py-2 hover:bg-blue-950">Pošalji</button>
+      <button :disabled="salje" class="self-start bg-blue-900 text-white text-sm font-semibold rounded-lg px-4 py-2 hover:bg-blue-950">Pošalji</button>
     </form>
     <p v-else class="text-sm text-gray-500 mb-4">
       <RouterLink to="/login" class="font-semibold text-blue-900">Prijavi se</RouterLink> za postavljanje pitanja.
@@ -197,7 +202,7 @@ onMounted(loadPitanja)
         <div v-if="authStore.user" class="border-t border-stone-100 mt-3 pt-2">
           <form v-if="odgovorNa === pitanje.id" @submit.prevent="posaljiOdgovor(pitanje)" class="flex gap-2 ml-6">
             <input v-model="noviOdgovor" type="text" placeholder="Tvoj odgovor" required class="flex-1 bg-white border border-stone-300 rounded-lg p-2 text-sm" />
-            <button class="bg-blue-900 text-white text-sm font-semibold rounded-lg px-4 hover:bg-blue-950">Odgovori</button>
+            <button :disabled="salje" class="bg-blue-900 text-white text-sm font-semibold rounded-lg px-4 hover:bg-blue-950">Odgovori</button>
             <button type="button" @click="odgovorNa = null" class="bg-gray-200 text-gray-700 text-sm font-semibold rounded-lg px-4 hover:bg-gray-100">Odustani</button>
           </form>
           <div v-else class="flex items-center gap-4">

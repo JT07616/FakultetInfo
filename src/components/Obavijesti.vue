@@ -18,6 +18,7 @@ const obavijestZaBrisanje = ref(null)
 const smijeUredjivati = computed(() => authStore.isFakultet && authStore.profil.fakultetId === props.fakultetId) 
 const smijeBrisati = computed(() => smijeUredjivati.value || authStore.isAdmin) // admin ne pise obavijesti, ali ih smije obrisati (moderacija)
 const greska = ref('')
+const salje = ref(false)
 
 async function ucitajObavijesti() {
   greska.value = ''
@@ -55,6 +56,7 @@ async function spremiObavijest() {
     greska.value = 'Naslov i tekst ne smiju biti prazni.'
     return
   }
+  salje.value = true
   try {
     if (urediId.value) {
       await updateDoc(doc(db, 'obavijesti', urediId.value), { naslov: naslov.value.trim(), tekst: tekst.value.trim() })
@@ -72,6 +74,7 @@ async function spremiObavijest() {
     console.error(e)
     greska.value = 'Spremanje obavijesti nije uspjelo.'
   }
+  salje.value = false
 }
 
 function popuniFormu(obavijest) {
@@ -103,7 +106,7 @@ onMounted(ucitajObavijesti)
       <p class="font-semibold text-blue-950">Nova obavijest</p>
       <input v-model="naslov" type="text" placeholder="Naslov obavijesti" required class="bg-white border border-stone-300 rounded-lg p-2.5 text-sm" />
       <textarea v-model="tekst" rows="3" placeholder="Tekst obavijesti" required class="bg-white border border-stone-300 rounded-lg p-2.5 text-sm"></textarea>
-      <button class="self-start bg-blue-900 text-white text-sm font-semibold rounded-lg px-4 py-2 hover:bg-blue-950">Objavi</button>
+      <button :disabled="salje" class="self-start bg-blue-900 text-white text-sm font-semibold rounded-lg px-4 py-2 hover:bg-blue-950">Objavi</button>
     </form>
 
     <!-- uredjivanje u modalu da se vidi sto se ureduje -->
@@ -113,7 +116,7 @@ onMounted(ucitajObavijesti)
         <input v-model="naslov" type="text" placeholder="Naslov obavijesti" required class="bg-white border border-stone-300 rounded-lg p-2.5 text-sm" />
         <textarea v-model="tekst" rows="3" placeholder="Tekst obavijesti" required class="bg-white border border-stone-300 rounded-lg p-2.5 text-sm"></textarea>
         <div class="flex gap-2">
-          <button class="bg-blue-900 text-white text-sm font-semibold rounded-lg px-4 py-2 hover:bg-blue-950">Spremi izmjene</button>
+          <button :disabled="salje" class="bg-blue-900 text-white text-sm font-semibold rounded-lg px-4 py-2 hover:bg-blue-950">Spremi izmjene</button>
           <button type="button" @click="odustani" class="bg-gray-200 text-gray-700 text-sm font-semibold rounded-lg px-4 py-2 hover:bg-gray-100">Odustani</button>
         </div>
       </form>
