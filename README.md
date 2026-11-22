@@ -10,8 +10,9 @@ pravila bodovanja, upisne rokove i komunikaciju s fakultetima na jednom mjestu.
 
 ## O projektu
 
+[Fakultet informatike u Puli](https://fipu.unipu.hr)
+
 - **Autor:** Juraj Tojčić
-- **Ustanova:** [Fakultet informatike u Puli](https://fipu.unipu.hr)
 - **Kolegij:** [Programsko inženjerstvo](https://ntankovic.unipu.hr/pi)
 - **Mentor:** [doc. dr. sc. Nikola Tanković](https://ntankovic.unipu.hr)
 
