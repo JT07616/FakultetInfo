@@ -60,6 +60,7 @@ Fakulteti i studijski programi nisu u bazi nego u kodu, u mapi `src/data`.
 ```
 firestore.rules       sigurnosna pravila baze
 UML_dijagrami/        dijagrami iz dokumentacije
+Dokumentacija/        projektna dokumentacija (PDF)
 src/
   assets/             stilovi i logotipi fakulteta
   components/         dijeljene komponente
@@ -67,13 +68,16 @@ src/
   firebase/           inicijalizacija Firebasea
   router/             rute i zaštita pristupa
   stores/             stanje prijavljenog korisnika
-  utils/              izračun bodova i poruke o pogreškama
   views/              stranice povezane s rutama
 ```
 
 ## UML dijagrami
 
 Dijagrami iz projektne dokumentacije nalaze se u mapi [`UML_dijagrami/`](UML_dijagrami).
+
+## Dokumentacija
+
+Projektna dokumentacija nalazi se u mapi [`Dokumentacija/`](Dokumentacija).
 
 ## Testni računi
 
