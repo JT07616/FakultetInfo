@@ -2,7 +2,6 @@
 import { ref } from 'vue'
 import { sendPasswordResetEmail } from 'firebase/auth'
 import { auth } from '../firebase/config.js'
-import { prevediGresku } from '../utils/greske.js'
 import { useAuthStore } from '../stores/authStore.js'
 import { useRouter } from 'vue-router'
 import showPass from '../components/showPass.vue'
@@ -50,7 +49,7 @@ async function zaboravljenaLozinka() {
     poruka.value = 'Poslan je e-mail za postavljanje nove lozinke.'
   } catch (error) {
     console.error(error)
-    greska.value = prevediGresku(error.code)
+    greska.value = authStore.prevediGresku(error.code)
   }
 }
 </script>

@@ -3,7 +3,6 @@ import { defineStore } from 'pinia'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth'
 import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore'
 import { auth, db } from '../firebase/config.js'
-import { prevediGresku } from '../utils/greske.js'
 
 export const useAuthStore = defineStore('auth', () => {
   const user = ref(null) // korisnik - uid i email
@@ -47,11 +46,25 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  function prevediGresku(kodGreske) {
+    if (kodGreske === 'auth/invalid-credential') {
+      return 'Neispravan e-mail ili lozinka.'
+    }
+    if (kodGreske === 'auth/email-already-in-use') {
+      return 'Taj e-mail je već registriran.'
+    }
+    if (kodGreske === 'auth/invalid-email') {
+      return 'E-mail nije ispravnog formata.'
+    }
+    if (kodGreske === 'auth/too-many-requests') {
+      return 'Previše pokušaja. Pokušaj ponovno kasnije.'
+    }
+    return 'Nešto je pošlo po zlu. Pokušaj ponovno.'
+  }
+
   async function registracija(email, lozinka, korisnickoIme) {
     try {
-
       const odgovor = await createUserWithEmailAndPassword(auth, email, lozinka)
-      // firebase auth ne zan za username ni role pa svoj dio drzim u firestoreu , email se kopira u dokument da ga admin vidi u listi korisnika
       await setDoc(doc(db, 'users', odgovor.user.uid), {
         username: korisnickoIme,
         email: email,
@@ -118,5 +131,5 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
 
- return { user, profil, isLoggedIn, isAdmin, isFakultet, username, init, registracija, prijava, odjava, loadProfil, toggleFavorit, spremiFavorite }
+ return { user, profil, isLoggedIn, isAdmin, isFakultet, username, init, registracija, prijava, odjava, loadProfil, toggleFavorit, spremiFavorite, prevediGresku }
 })

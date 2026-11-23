@@ -4,7 +4,6 @@ import { useRouter } from 'vue-router'
 import { EmailAuthProvider, reauthenticateWithCredential, updatePassword } from 'firebase/auth'
 import { auth } from '../firebase/config.js'
 import { useAuthStore } from '../stores/authStore.js'
-import { prevediGresku } from '../utils/greske.js'
 import showPass from '../components/showPass.vue'
 
 const authStore = useAuthStore()
@@ -56,7 +55,7 @@ async function promijeniLozinku() {
     if (error.code === 'auth/invalid-credential') {
       greska.value = 'Stara lozinka nije točna.'
     } else {
-      greska.value = prevediGresku(error.code)
+      greska.value = authStore.prevediGresku(error.code)
     }
   }
 }
